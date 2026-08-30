@@ -1,0 +1,24 @@
+package com.college.voting.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Map;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DashboardStatsResponse {
+    private long totalStudents;
+    private long totalCandidates;
+    private long totalElections;
+    private long activeElections;
+    private long totalVotesCast;
+    private double overallTurnoutPercentage;
+    private Map<String, Long> departmentTurnout;
+    private Map<String, Long> yearTurnout;
+}

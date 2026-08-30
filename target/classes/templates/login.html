@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Login - College Voting System</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(13, 110, 253, 0.18), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(111, 66, 193, 0.18), transparent 35%),
+                #f4f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 620px;
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            display: flex;
+        }
+
+        /* LEFT SIDE */
+
+        .login-left {
+            width: 48%;
+            background: linear-gradient(145deg, #0d6efd, #084298);
+            color: white;
+            padding: 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            top: -100px;
+            right: -100px;
+        }
+
+        .login-left::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            bottom: -90px;
+            left: -80px;
+        }
+
+        .brand-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.16);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-left h1 {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-left .subtitle {
+            font-size: 17px;
+            line-height: 1.7;
+            opacity: 0.9;
+            max-width: 430px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-list {
+            margin-top: 35px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            font-size: 15px;
+        }
+
+        .feature-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.14);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 13px;
+        }
+
+        /* RIGHT SIDE */
+
+        .login-right {
+            width: 52%;
+            padding: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-form-container {
+            width: 100%;
+            max-width: 410px;
+        }
+
+        .login-heading {
+            margin-bottom: 30px;
+        }
+
+        .login-heading h2 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+
+        .login-heading p {
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 8px;
+        }
+
+        .input-group-custom {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #6c757d;
+            z-index: 5;
+        }
+
+        .form-control-custom {
+            height: 52px;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding-left: 47px;
+            padding-right: 50px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .form-control-custom:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.10);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #6c757d;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 5;
+        }
+
+        .password-toggle:hover {
+            color: #0d6efd;
+        }
+
+        .forgot-link {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0d6efd;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            height: 52px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.22);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(13, 110, 253, 0.30);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.75;
+            transform: none;
+        }
+
+        .register-section {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 22px;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .register-section a {
+            color: #0d6efd;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .register-section a:hover {
+            text-decoration: underline;
+        }
+
+        .security-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #8a939b;
+            font-size: 12px;
+        }
+
+        .alert {
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .loading-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: white;
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 7px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .login-wrapper {
+                max-width: 500px;
+                min-height: auto;
+            }
+
+            .login-left {
+                display: none;
+            }
+
+            .login-right {
+                width: 100%;
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .login-wrapper {
+                border-radius: 18px;
+            }
+
+            .login-right {
+                padding: 35px 22px;
+            }
+
+            .login-heading h2 {
+                font-size: 26px;
+            }
+
+            .login-heading p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+    <!-- LEFT INFORMATION PANEL -->
+
+    <div class="login-left">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <h1>College Voting System</h1>
+
+        <p class="subtitle">
+            Your voice matters. Participate in your college
+            elections and help shape your student community.
+        </p>
+
+        <div class="feature-list">
+
+            <div class="feature">
+                <div class="feature-icon">🔐</div>
+                <span>Secure and authenticated voting</span>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🗳️</div>
+                <span>Simple and transparent election process</span>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <span>View election results and updates</span>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <span>One student, one vote</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGIN PANEL -->
+
+    <div class="login-right">
+
+        <div class="login-form-container">
+
+            <div class="login-heading">
+
+                <h2>Welcome Back 👋</h2>
+
+                <p>
+                    Sign in to access your student voting account.
+                </p>
+
+            </div>
+
+
+            <!-- ERROR MESSAGE -->
+
+            <div id="errorAlert"
+                 class="alert alert-danger d-none"
+                 role="alert">
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form id="loginForm">
+
+                <!-- EMAIL -->
+
+                <div class="mb-4">
+
+                    <label class="form-label" for="email">
+                        College Email
+                    </label>
+
+                    <div class="input-group-custom">
+
+                        <span class="input-icon">
+                            ✉️
+                        </span>
+
+                        <input
+                            type="email"
+                            class="form-control form-control-custom"
+                            id="email"
+                            placeholder="student@college.edu"
+                            autocomplete="email"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                        <label class="form-label mb-0" for="password">
+                            Password
+                        </label>
+
+                        <a href="/forgot-password"
+                           class="forgot-link">
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+                    <div class="input-group-custom">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            class="form-control form-control-custom"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                            aria-label="Show password">
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="btn login-btn w-100 mt-3"
+                    id="submitBtn">
+
+                    Login to Account
+
+                </button>
+
+            </form>
+
+
+            <!-- REGISTER -->
+
+            <div class="register-section">
+
+                Don't have an account?
+
+                <a href="/register">
+                    Create a student account
+                </a>
+
+            </div>
+
+
+            <!-- SECURITY NOTE -->
+
+            <div class="security-note">
+
+                🔒 Your login information is securely protected.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* ================================
+       PASSWORD SHOW / HIDE
+    ================================= */
+
+    const passwordInput =
+        document.getElementById('password');
+
+    const togglePassword =
+        document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', function () {
+
+        if (passwordInput.type === 'password') {
+
+            passwordInput.type = 'text';
+
+            togglePassword.textContent = '🙈';
+
+            togglePassword.setAttribute(
+                'aria-label',
+                'Hide password'
+            );
+
+        } else {
+
+            passwordInput.type = 'password';
+
+            togglePassword.textContent = '👁️';
+
+            togglePassword.setAttribute(
+                'aria-label',
+                'Show password'
+            );
+        }
+
+    });
+
+
+    /* ================================
+       LOGIN
+    ================================= */
+
+    document
+        .getElementById('loginForm')
+        .addEventListener('submit', async function (e) {
+
+            e.preventDefault();
+
+            const submitBtn =
+                document.getElementById('submitBtn');
+
+            const errorAlert =
+                document.getElementById('errorAlert');
+
+            const email =
+                document.getElementById('email')
+                    .value.trim();
+
+            const password =
+                document.getElementById('password')
+                    .value;
+
+
+            /* Hide previous error */
+
+            errorAlert.classList.add('d-none');
+
+
+            /* Disable button */
+
+            submitBtn.disabled = true;
+
+            submitBtn.innerHTML =
+                '<span class="loading-spinner"></span> Signing in...';
+
+
+            try {
+
+                const response = await fetch(
+                    '/api/auth/login',
+                    {
+                        method: 'POST',
+
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message || 'Login failed. Please check your credentials.'
+                    );
+
+                }
+
+
+                /* Store authentication information */
+
+                localStorage.setItem(
+                    'token',
+                    data.token
+                );
+
+                localStorage.setItem(
+                    'role',
+                    data.role
+                );
+
+                localStorage.setItem(
+                    'fullName',
+                    data.fullName
+                );
+
+
+                /* Redirect based on role */
+
+                if (data.role === 'ROLE_ADMIN') {
+
+                    window.location.href =
+                        '/admin/dashboard';
+
+                } else {
+
+                    window.location.href =
+                        '/student/dashboard';
+
+                }
+
+            } catch (err) {
+
+                errorAlert.textContent =
+                    err.message;
+
+                errorAlert.classList.remove(
+                    'd-none'
+                );
+
+                submitBtn.disabled = false;
+
+                submitBtn.textContent =
+                    'Login to Account';
+
+            }
+
+        });
+
+</script>
+
+</body>
+</html>

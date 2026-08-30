@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | College Voting</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", sans-serif;
+        }
+
+        /* =====================================================
+           DESKTOP SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 250px;
+
+            background: #111827;
+
+            padding: 24px 16px;
+
+            z-index: 1100;
+
+            display: flex;
+            flex-direction: column;
+
+            transition: 0.3s ease;
+        }
+
+        .brand {
+            color: white;
+
+            font-size: 21px;
+            font-weight: 700;
+
+            padding: 10px 14px 25px;
+
+            border-bottom: 1px solid rgba(255,255,255,.1);
+
+            margin-bottom: 20px;
+        }
+
+        .brand span {
+            color: #818cf8;
+        }
+
+        .nav-link-custom {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            margin-bottom: 6px;
+
+            transition: 0.2s;
+        }
+
+        .nav-link-custom:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .nav-link-custom.active {
+            background: #312e81;
+            color: white;
+        }
+
+        .nav-icon {
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .logout-area {
+            margin-top: auto;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            transition: 0.3s ease;
+        }
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            height: 72px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .system-name {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           MOBILE MENU BUTTON
+        ===================================================== */
+
+        .mobile-menu-btn {
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+            color: #111827;
+
+            padding: 2px 8px;
+        }
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+            padding: 30px;
+        }
+
+        .welcome {
+            font-size: 28px;
+
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #6b7280;
+
+            margin-top: 5px;
+        }
+
+        /* =====================================================
+           STAT CARDS
+        ===================================================== */
+
+        .stat-card {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            height: 100%;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,.03);
+
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow: 0 10px 25px rgba(0,0,0,.07);
+        }
+
+        .stat-icon {
+            width: 44px;
+
+            height: 44px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eef2ff;
+
+            font-size: 20px;
+        }
+
+        .stat-title {
+            color: #6b7280;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-top: 15px;
+
+            letter-spacing: .5px;
+        }
+
+        .stat-value {
+            font-size: 29px;
+
+            font-weight: 700;
+
+            margin-top: 2px;
+        }
+
+        /* =====================================================
+           CHART CARDS
+        ===================================================== */
+
+        .chart-card {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            height: 100%;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,.03);
+        }
+
+        .chart-title {
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+        .chart-container {
+            position: relative;
+
+            height: 300px;
+        }
+
+        /* =====================================================
+           QUICK ACTIONS
+        ===================================================== */
+
+        .quick-card {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            text-decoration: none;
+
+            color: #1f2937;
+
+            display: block;
+
+            transition: .2s;
+
+            height: 100%;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow: 0 8px 20px rgba(0,0,0,.07);
+
+            color: #4f46e5;
+        }
+
+        .quick-icon {
+            font-size: 30px;
+        }
+
+        /* =====================================================
+           MOBILE OFFCANVAS
+        ===================================================== */
+
+        .mobile-offcanvas {
+            width: 270px !important;
+        }
+
+        .mobile-brand {
+            font-size: 20px;
+
+            font-weight: 700;
+
+            color: #111827;
+        }
+
+        .mobile-brand span {
+            color: #4f46e5;
+        }
+
+        .mobile-nav-link {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 14px;
+
+            border-radius: 10px;
+
+            color: #374151;
+
+            text-decoration: none;
+
+            margin-bottom: 6px;
+
+            transition: .2s;
+        }
+
+        .mobile-nav-link:hover {
+            background: #eef2ff;
+
+            color: #4f46e5;
+        }
+
+        .mobile-nav-link.active {
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           TABLET / MOBILE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .topbar {
+                height: 64px;
+
+                padding: 0 18px;
+            }
+
+            .topbar-title {
+                font-size: 16px;
+            }
+
+            .system-name {
+                display: none;
+            }
+
+            .content {
+                padding: 22px;
+            }
+
+            .welcome {
+                font-size: 24px;
+            }
+        }
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 576px) {
+
+            .content {
+                padding: 16px;
+            }
+
+            .welcome {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            .stat-card {
+                padding: 18px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .chart-card {
+                padding: 18px;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .quick-card {
+                padding: 18px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     DESKTOP SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        College <span>Voting</span>
+    </div>
+
+
+    <a
+        href="/admin/dashboard"
+        class="nav-link-custom active">
+
+        <span class="nav-icon">📊</span>
+
+        <span>Dashboard</span>
+
+    </a>
+
+
+    <a
+        href="/admin/elections"
+        class="nav-link-custom">
+
+        <span class="nav-icon">🗳️</span>
+
+        <span>Elections</span>
+
+    </a>
+
+
+    <a
+        href="/admin/students"
+        class="nav-link-custom">
+
+        <span class="nav-icon">👨‍🎓</span>
+
+        <span>Students</span>
+
+    </a>
+
+
+    <a
+        href="/admin/candidates"
+        class="nav-link-custom">
+
+        <span class="nav-icon">👥</span>
+
+        <span>Candidates</span>
+
+    </a>
+
+
+    <a
+        href="/admin/results"
+        class="nav-link-custom">
+
+        <span class="nav-icon">📈</span>
+
+        <span>Results</span>
+
+    </a>
+
+
+    <a
+        href="/admin/audit-logs"
+        class="nav-link-custom">
+
+        <span class="nav-icon">📋</span>
+
+        <span>Audit Logs</span>
+
+    </a>
+
+
+    <div class="logout-area">
+
+        <button
+            class="btn btn-outline-light w-100"
+            onclick="logout()">
+
+            🚪 Logout
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+
+        <div class="d-flex align-items-center gap-2">
+
+            <!-- MOBILE THREE LINE BUTTON -->
+
+            <button
+                class="mobile-menu-btn"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#mobileMenu"
+                aria-controls="mobileMenu">
+
+                ☰
+
+            </button>
+
+
+            <strong class="topbar-title">
+                Admin Dashboard
+            </strong>
+
+        </div>
+
+
+        <span class="system-name">
+            College Voting System
+        </span>
+
+
+    </header>
+
+
+    <!-- PAGE CONTENT -->
+
+    <div class="content">
+
+
+        <!-- WELCOME -->
+
+        <div class="mb-4">
+
+            <div class="welcome">
+
+                Welcome,
+                <span id="adminName">
+                    Admin
+                </span>
+
+                👋
+
+            </div>
+
+
+            <div class="subtitle">
+
+                Here's what's happening with your voting system.
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <div
+            class="row g-3 mb-4"
+            id="statsCards">
+
+        </div>
+
+
+        <!-- =================================================
+             CHARTS
+        ================================================= -->
+
+        <div class="row g-4 mb-4">
+
+
+            <!-- DEPARTMENT CHART -->
+
+            <div class="col-lg-6">
+
+                <div class="chart-card">
+
+                    <div class="chart-title mb-1">
+
+                        Turnout by Department
+
+                    </div>
+
+
+                    <p class="text-muted small mb-3">
+
+                        Voter participation by department.
+
+                    </p>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="deptChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- YEAR CHART -->
+
+            <div class="col-lg-6">
+
+                <div class="chart-card">
+
+                    <div class="chart-title mb-1">
+
+                        Turnout by Year
+
+                    </div>
+
+
+                    <p class="text-muted small mb-3">
+
+                        Voter participation by academic year.
+
+                    </p>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="yearChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================= -->
+
+        <h5 class="fw-bold mb-3">
+
+            Quick Actions
+
+        </h5>
+
+
+        <div class="row g-3">
+
+
+            <!-- ELECTIONS -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <a
+                    href="/admin/elections"
+                    class="quick-card">
+
+                    <div class="quick-icon">
+                        🗳️
+                    </div>
+
+
+                    <h6 class="mt-3 fw-bold">
+
+                        Manage Elections
+
+                    </h6>
+
+
+                    <small class="text-muted">
+
+                        Create and manage elections
+
+                    </small>
+
+                </a>
+
+            </div>
+
+
+            <!-- STUDENTS -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <a
+                    href="/admin/students"
+                    class="quick-card">
+
+                    <div class="quick-icon">
+                        👨‍🎓
+                    </div>
+
+
+                    <h6 class="mt-3 fw-bold">
+
+                        Manage Students
+
+                    </h6>
+
+
+                    <small class="text-muted">
+
+                        Add and manage students
+
+                    </small>
+
+                </a>
+
+            </div>
+
+
+            <!-- RESULTS -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <a
+                    href="/admin/results"
+                    class="quick-card">
+
+                    <div class="quick-icon">
+                        📈
+                    </div>
+
+
+                    <h6 class="mt-3 fw-bold">
+
+                        View Results
+
+                    </h6>
+
+
+                    <small class="text-muted">
+
+                        View election results
+
+                    </small>
+
+                </a>
+
+            </div>
+
+
+            <!-- AUDIT LOGS -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <a
+                    href="/admin/audit-logs"
+                    class="quick-card">
+
+                    <div class="quick-icon">
+                        📋
+                    </div>
+
+
+                    <h6 class="mt-3 fw-bold">
+
+                        Audit Logs
+
+                    </h6>
+
+
+                    <small class="text-muted">
+
+                        Track administrator actions
+
+                    </small>
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     MOBILE OFFCANVAS MENU
+========================================================= -->
+
+<div
+    class="offcanvas offcanvas-start mobile-offcanvas"
+    tabindex="-1"
+    id="mobileMenu"
+    aria-labelledby="mobileMenuLabel">
+
+
+    <div class="offcanvas-header">
+
+        <h5
+            class="offcanvas-title mobile-brand"
+            id="mobileMenuLabel">
+
+            College
+            <span>Voting</span>
+
+        </h5>
+
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close">
+
+        </button>
+
+    </div>
+
+
+    <div class="offcanvas-body">
+
+
+        <a
+            href="/admin/dashboard"
+            class="mobile-nav-link active">
+
+            <span>📊</span>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a
+            href="/admin/elections"
+            class="mobile-nav-link">
+
+            <span>🗳️</span>
+
+            <span>Elections</span>
+
+        </a>
+
+
+        <a
+            href="/admin/students"
+            class="mobile-nav-link">
+
+            <span>👨‍🎓</span>
+
+            <span>Students</span>
+
+        </a>
+
+
+        <a
+            href="/admin/candidates"
+            class="mobile-nav-link">
+
+            <span>👥</span>
+
+            <span>Candidates</span>
+
+        </a>
+
+
+        <a
+            href="/admin/results"
+            class="mobile-nav-link">
+
+            <span>📈</span>
+
+            <span>Results</span>
+
+        </a>
+
+
+        <a
+            href="/admin/audit-logs"
+            class="mobile-nav-link">
+
+            <span>📋</span>
+
+            <span>Audit Logs</span>
+
+        </a>
+
+
+        <hr class="my-4">
+
+
+        <button
+            class="btn btn-danger w-100"
+            onclick="logout()">
+
+            🚪 Logout
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- AUTH JS -->
+
+<script src="/js/auth.js"></script>
+
+
+<script>
+
+    /* =========================================================
+       AUTHENTICATION
+    ========================================================= */
+
+    requireAuth('ROLE_ADMIN');
+
+
+    /* =========================================================
+       ADMIN NAME
+    ========================================================= */
+
+    document.getElementById('adminName').textContent =
+        localStorage.getItem('fullName') || 'Admin';
+
+
+    /* =========================================================
+       CHART VARIABLES
+    ========================================================= */
+
+    let deptChart;
+
+    let yearChart;
+
+
+    /* =========================================================
+       LOAD DASHBOARD STATISTICS
+    ========================================================= */
+
+    async function loadStats() {
+
+        const res =
+            await authFetch('/api/admin/dashboard/stats');
+
+
+        if (!res) return;
+
+
+        const s =
+            await res.json();
+
+
+        /* =====================================================
+           STATISTICS CARDS
+        ===================================================== */
+
+        document.getElementById('statsCards').innerHTML = `
+
+
+            <!-- STUDENTS -->
+
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👨‍🎓
+                    </div>
+
+                    <div class="stat-title">
+                        STUDENTS
+                    </div>
+
+                    <div class="stat-value">
+                        ${s.totalStudents}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CANDIDATES -->
+
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div class="stat-title">
+                        CANDIDATES
+                    </div>
+
+                    <div class="stat-value">
+                        ${s.totalCandidates}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ELECTIONS -->
+
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🗳️
+                    </div>
+
+                    <div class="stat-title">
+                        ELECTIONS
+                    </div>
+
+                    <div class="stat-value">
+                        ${s.totalElections}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVE -->
+
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🟢
+                    </div>
+
+                    <div class="stat-title">
+                        ACTIVE
+                    </div>
+
+                    <div class="stat-value">
+                        ${s.activeElections}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- VOTES -->
+
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🗳️
+                    </div>
+
+                    <div class="stat-title">
+                        VOTES
+                    </div>
+
+                    <div class="stat-value">
+                        ${s.totalVotesCast}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TURNOUT -->
+
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📊
+                    </div>
+
+                    <div class="stat-title">
+                        TURNOUT
+                    </div>
+
+                    <div class="stat-value">
+                        ${s.overallTurnoutPercentage}%
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        /* =====================================================
+           DEPARTMENT DATA
+        ===================================================== */
+
+        const deptLabels =
+            Object.keys(s.departmentTurnout || {});
+
+
+        const deptValues =
+            Object.values(s.departmentTurnout || {});
+
+
+        /* =====================================================
+           YEAR DATA
+        ===================================================== */
+
+        const yearLabels =
+            Object.keys(s.yearTurnout || {});
+
+
+        const yearValues =
+            Object.values(s.yearTurnout || {});
+
+
+        /* =====================================================
+           DESTROY OLD CHARTS
+        ===================================================== */
+
+        if (deptChart) {
+
+            deptChart.destroy();
+
+        }
+
+
+        if (yearChart) {
+
+            yearChart.destroy();
+
+        }
+
+
+        /* =====================================================
+           DEPARTMENT CHART
+        ===================================================== */
+
+        deptChart = new Chart(
+
+            document.getElementById('deptChart'),
+
+            {
+
+                type: 'bar',
+
+
+                data: {
+
+                    labels:
+                        deptLabels.length
+                            ? deptLabels
+                            : ['No data'],
+
+
+                    datasets: [
+
+                        {
+
+                            label: 'Voters',
+
+                            data:
+                                deptValues.length
+                                    ? deptValues
+                                    : [0]
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display: false
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+
+                                precision: 0
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+
+        /* =====================================================
+           YEAR CHART
+        ===================================================== */
+
+        yearChart = new Chart(
+
+            document.getElementById('yearChart'),
+
+            {
+
+                type: 'bar',
+
+
+                data: {
+
+                    labels:
+                        yearLabels.length
+                            ? yearLabels
+                            : ['No data'],
+
+
+                    datasets: [
+
+                        {
+
+                            label: 'Voters',
+
+                            data:
+                                yearValues.length
+                                    ? yearValues
+                                    : [0]
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+
+                    plugins: {
+
+                        legend: {
+
+                            display: false
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+
+                                precision: 0
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+    }
+
+
+    /* =========================================================
+       LOAD DATA
+    ========================================================= */
+
+    loadStats();
+
+</script>
+
+
+</body>
+
+</html>

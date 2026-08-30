@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Election Details | College Voting</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f7fb;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #172033;
+        }
+
+        .topbar {
+            background: linear-gradient(135deg,#4f46e5,#2563eb);
+            min-height: 72px;
+            box-shadow: 0 5px 20px rgba(37,99,235,.18);
+        }
+
+        .brand {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,.18);
+            margin-right: 10px;
+        }
+
+        .nav-btn {
+            color: white;
+            border: 1px solid rgba(255,255,255,.55);
+            border-radius: 10px;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #2563eb;
+        }
+
+        .election-header {
+            margin-top: 38px;
+            padding: 35px;
+            border-radius: 23px;
+            color: white;
+            background: linear-gradient(135deg,#4338ca,#2563eb);
+            box-shadow: 0 15px 35px rgba(37,99,235,.18);
+        }
+
+        .election-header h1 {
+            font-weight: 750;
+        }
+
+        .election-header p {
+            opacity: .86;
+        }
+
+        .position-section {
+            margin-top: 35px;
+        }
+
+        .position-title {
+            font-weight: 750;
+            margin-bottom: 17px;
+        }
+
+        .candidate-card {
+            background: white;
+            border: 1px solid #e3e8f0;
+            border-radius: 18px;
+            overflow: hidden;
+            height: 100%;
+            transition: .25s;
+            box-shadow: 0 5px 20px rgba(15,23,42,.04);
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15,23,42,.10);
+        }
+
+        .candidate-image {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            background: #eef2ff;
+        }
+
+        .candidate-placeholder {
+            height: 210px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,#eef2ff,#dbeafe);
+            color: #4f46e5;
+            font-size: 65px;
+        }
+
+        .candidate-body {
+            padding: 21px;
+        }
+
+        .candidate-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .slogan {
+            color: #64748b;
+            font-style: italic;
+            font-size: 14px;
+            min-height: 40px;
+        }
+
+        .manifesto-btn {
+            border-radius: 10px;
+        }
+
+        .voted-box {
+            padding: 15px;
+            border-radius: 12px;
+            background: #ecfdf5;
+            color: #047857;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar topbar">
+    <div class="container d-flex justify-content-between">
+
+        <a href="/student/dashboard" class="brand">
+            <span class="brand-icon">
+                <i class="bi bi-check2-square"></i>
+            </span>
+            Student Council Voting
+        </a>
+
+        <div class="d-flex gap-2">
+
+            <a href="/student/elections" class="btn nav-btn btn-sm">
+                <i class="bi bi-arrow-left"></i>
+                Elections
+            </a>
+
+            <button onclick="logout()" class="btn nav-btn btn-sm">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+</nav>
+
+<div class="container">
+
+    <div id="electionHeader"></div>
+
+    <div id="resultsLink" class="mt-3"></div>
+
+    <div id="positionsList"></div>
+
+</div>
+
+<script src="/js/auth.js"></script>
+
+<script>
+requireAuth('ROLE_STUDENT');
+
+const params = new URLSearchParams(window.location.search);
+const electionId = params.get('id');
+
+if (!electionId) {
+    window.location.href = '/student/elections';
+}
+
+let votingStatusMap = {};
+
+async function loadVotingStatus() {
+
+    const res = await authFetch(
+        `/api/votes/status/${electionId}`
+    );
+
+    if (!res) return;
+
+    const statuses = await res.json();
+
+    statuses.forEach(s => {
+        votingStatusMap[s.positionId] = s.hasVoted;
+    });
+}
+
+async function loadElection() {
+
+    await loadVotingStatus();
+
+    const res = await authFetch(
+        `/api/student/elections/${electionId}`
+    );
+
+    if (!res) return;
+
+    const election = await res.json();
+
+    document.getElementById('electionHeader').innerHTML = `
+
+        <div class="election-header">
+
+            <span class="badge bg-light text-primary mb-3">
+                <i class="bi bi-award me-1"></i>
+                ${election.status}
+            </span>
+
+            <h1>${election.name}</h1>
+
+            <p class="mb-0">
+                ${election.description || 'College Student Council Election'}
+            </p>
+
+        </div>
+    `;
+
+    const resultsDiv =
+        document.getElementById('resultsLink');
+
+    if (
+        election.status === 'COMPLETED' ||
+        election.showLiveResults
+    ) {
+
+        resultsDiv.innerHTML = `
+            <a href="/student/results?id=${electionId}"
+               class="btn btn-outline-primary rounded-3">
+
+                <i class="bi bi-bar-chart-fill me-1"></i>
+                View Election Results
+
+            </a>
+        `;
+    }
+
+    const positions = election.positions || [];
+    const container = document.getElementById('positionsList');
+
+    if (positions.length === 0) {
+
+        container.innerHTML = `
+            <div class="alert alert-info mt-4">
+                <i class="bi bi-info-circle me-2"></i>
+                No positions have been set up for this election yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    for (const pos of positions) {
+
+        const hasVoted = votingStatusMap[pos.id];
+
+        const section = document.createElement('div');
+
+        section.className = 'position-section';
+
+        section.innerHTML = `
+
+            <div class="d-flex justify-content-between
+                        align-items-center flex-wrap gap-2">
+
+                <h3 class="position-title">
+                    <i class="bi bi-person-badge text-primary me-2"></i>
+                    ${pos.title}
+                </h3>
+
+                ${
+                    election.status === 'ACTIVE'
+                    ?
+                    hasVoted
+                    ?
+                    `
+                    <div class="voted-box">
+                        <i class="bi bi-check-circle-fill me-1"></i>
+                        You already voted
+                    </div>
+                    `
+                    :
+                    `
+                    <a href="/student/vote?electionId=${electionId}&positionId=${pos.id}"
+                       class="btn btn-primary rounded-3">
+
+                        <i class="bi bi-ballot2 me-1"></i>
+                        Vote Now
+
+                    </a>
+                    `
+                    : ''
+                }
+
+            </div>
+
+            <div class="row g-4" id="pos-${pos.id}"></div>
+        `;
+
+        container.appendChild(section);
+
+        loadCandidates(pos.id);
+    }
+}
+
+async function loadCandidates(positionId) {
+
+    const res = await authFetch(
+        `/api/student/candidates/position/${positionId}`
+    );
+
+    if (!res) return;
+
+    const candidates = await res.json();
+
+    const target =
+        document.getElementById('pos-' + positionId);
+
+    if (candidates.length === 0) {
+
+        target.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-light border">
+                    No approved candidates yet.
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+    target.innerHTML = '';
+
+    candidates.forEach(c => {
+
+        const col = document.createElement('div');
+
+        col.className = 'col-sm-6 col-lg-4';
+
+        col.innerHTML = `
+
+            <div class="candidate-card">
+
+                ${
+                    c.photoUrl
+                    ?
+                    `<img src="${c.photoUrl}"
+                          class="candidate-image"
+                          alt="Candidate">`
+                    :
+                    `
+                    <div class="candidate-placeholder">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    `
+                }
+
+                <div class="candidate-body">
+
+                    <div class="candidate-name mb-1">
+                        ${c.fullName}
+                    </div>
+
+                    <div class="small text-muted mb-2">
+                        ${c.department || ''}
+                        ${c.year ? ' · ' + c.year : ''}
+                    </div>
+
+                    <p class="slogan">
+                        ${c.slogan || 'No slogan provided.'}
+                    </p>
+
+                    <button type="button"
+                            class="btn btn-outline-primary btn-sm
+                                   manifesto-btn w-100">
+
+                        <i class="bi bi-file-text me-1"></i>
+                        Read Manifesto
+
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        col.querySelector('.manifesto-btn')
+        .addEventListener('click', () => {
+
+            alert(
+                'MANIFESTO\n\n' +
+                (c.manifesto || 'No manifesto provided.')
+            );
+
+        });
+
+        target.appendChild(col);
+    });
+}
+
+loadElection();
+</script>
+
+</body>
+</html>

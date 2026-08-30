@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Election Results | College Voting</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+    <style>
+        body {
+            background: #f5f7fb;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #172033;
+        }
+
+        .topbar {
+            background: linear-gradient(135deg,#4f46e5,#2563eb);
+            min-height: 72px;
+            box-shadow: 0 5px 20px rgba(37,99,235,.18);
+        }
+
+        .brand {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,.18);
+            margin-right: 10px;
+        }
+
+        .nav-btn {
+            color: white;
+            border: 1px solid rgba(255,255,255,.55);
+            border-radius: 10px;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: #2563eb;
+        }
+
+        .page-header {
+            margin-top: 40px;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-weight: 750;
+        }
+
+        .page-header p {
+            color: #64748b;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e3e8f0;
+            border-radius: 17px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(15,23,42,.04);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            margin: 0 auto 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 13px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-size: 20px;
+        }
+
+        .stat-card h6 {
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 750;
+        }
+
+        .result-card {
+            background: white;
+            border: 1px solid #e3e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 25px;
+            box-shadow: 0 5px 20px rgba(15,23,42,.04);
+        }
+
+        .result-header {
+            padding: 20px 23px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e3e8f0;
+        }
+
+        .result-header h4 {
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .result-body {
+            padding: 23px;
+        }
+
+        .winner {
+            background: #ecfdf5 !important;
+        }
+
+        .winner-icon {
+            color: #059669;
+            margin-right: 6px;
+        }
+
+        .chart-box {
+            min-height: 280px;
+        }
+
+        @media(max-width:768px) {
+            .chart-box {
+                margin-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar topbar">
+    <div class="container d-flex justify-content-between">
+
+        <a href="/student/dashboard" class="brand">
+            <span class="brand-icon">
+                <i class="bi bi-check2-square"></i>
+            </span>
+            Student Council Voting
+        </a>
+
+        <div class="d-flex gap-2">
+
+            <a href="/student/elections"
+               class="btn nav-btn btn-sm">
+                <i class="bi bi-arrow-left"></i>
+                Elections
+            </a>
+
+            <button onclick="logout()"
+                    class="btn nav-btn btn-sm">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+</nav>
+
+<div class="container">
+
+    <div id="header" class="page-header"></div>
+
+    <div id="turnoutSummary"
+         class="row g-4">
+    </div>
+
+    <div id="positionsResults"></div>
+
+</div>
+
+<script src="/js/auth.js"></script>
+
+<script>
+requireAuth('ROLE_STUDENT');
+
+const params =
+    new URLSearchParams(window.location.search);
+
+const electionId = params.get('id');
+
+if (!electionId) {
+    window.location.href = '/student/elections';
+}
+
+async function loadResults() {
+
+    const res = await authFetch(
+        `/api/student/elections/${electionId}/results`
+    );
+
+    if (!res) return;
+
+    const data = await res.json();
+
+    if (!res.ok) {
+
+        document.getElementById('header').innerHTML = `
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                ${data.message || 'Results not available.'}
+            </div>
+        `;
+
+        return;
+    }
+
+    document.getElementById('header').innerHTML = `
+
+        <h1>
+            <i class="bi bi-trophy-fill text-warning me-2"></i>
+            ${data.electionName}
+        </h1>
+
+        <p>
+            Official election results and voting turnout.
+        </p>
+
+    `;
+
+    document.getElementById('turnoutSummary').innerHTML = `
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+
+                <h6>Eligible Students</h6>
+
+                <div class="stat-number">
+                    ${data.totalEligibleStudents}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-check2-square"></i>
+                </div>
+
+                <h6>Votes Cast</h6>
+
+                <div class="stat-number">
+                    ${data.totalVoters}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    <i class="bi bi-bar-chart"></i>
+                </div>
+
+                <h6>Turnout</h6>
+
+                <div class="stat-number">
+                    ${data.turnoutPercentage}%
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    const container =
+        document.getElementById('positionsResults');
+
+    container.innerHTML = '';
+
+    data.positions.forEach(pos => {
+
+        const section =
+            document.createElement('div');
+
+        section.className = 'result-card';
+
+        const winner =
+            pos.candidates.find(c => c.winner);
+
+        section.innerHTML = `
+
+            <div class="result-header
+                        d-flex justify-content-between
+                        align-items-center
+                        flex-wrap gap-2">
+
+                <h4>
+                    <i class="bi bi-person-badge text-primary me-2"></i>
+                    ${pos.positionTitle}
+                </h4>
+
+                ${
+                    pos.isTie
+                    ?
+                    `<span class="badge bg-warning text-dark">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        TIE
+                    </span>`
+                    :
+                    winner
+                    ?
+                    `<span class="badge bg-success">
+                        <i class="bi bi-trophy me-1"></i>
+                        Winner: ${winner.candidateName}
+                    </span>`
+                    :
+                    `<span class="badge bg-secondary">
+                        No votes yet
+                    </span>`
+                }
+
+            </div>
+
+            <div class="result-body">
+
+                <div class="row align-items-center">
+
+                    <div class="col-lg-7">
+
+                        <div class="table-responsive">
+
+                            <table class="table align-middle">
+
+                                <thead>
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>Votes</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    ${pos.candidates.map(c => `
+
+                                        <tr class="${c.winner ? 'winner' : ''}">
+
+                                            <td>
+
+                                                ${
+                                                    c.winner
+                                                    ?
+                                                    `<i class="bi bi-trophy-fill winner-icon"></i>`
+                                                    : ''
+                                                }
+
+                                                <strong>
+                                                    ${c.candidateName}
+                                                </strong>
+
+                                            </td>
+
+                                            <td>
+                                                ${c.votes}
+                                            </td>
+
+                                            <td>
+                                                <span class="badge
+                                                    ${
+                                                        c.winner
+                                                        ? 'bg-success'
+                                                        : 'bg-light text-dark'
+                                                    }">
+
+                                                    ${c.percentage}%
+
+                                                </span>
+                                            </td>
+
+                                        </tr>
+
+                                    `).join('')}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-5">
+
+                        <div class="chart-box">
+
+                            <canvas id="chart-${pos.positionId}">
+                            </canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        container.appendChild(section);
+
+        new Chart(
+            document.getElementById(
+                `chart-${pos.positionId}`
+            ),
+            {
+                type: 'doughnut',
+
+                data: {
+                    labels:
+                        pos.candidates.map(
+                            c => c.candidateName
+                        ),
+
+                    datasets: [{
+                        data:
+                            pos.candidates.map(
+                                c => c.votes
+                            )
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            }
+        );
+
+    });
+}
+
+loadResults();
+</script>
+
+</body>
+</html>
