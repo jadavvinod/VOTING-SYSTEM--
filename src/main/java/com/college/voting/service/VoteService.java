@@ -28,41 +28,192 @@ public class VoteService {
     private final EntityManager entityManager;
 
     /**
-     * Casts one vote. The student comes from the authenticated principal (passed in by
-     * the controller from the SecurityContext) — never from the request body. Every
-     * rule from the spec is enforced here, not just on the frontend:
-     *  1. Election must be ACTIVE right now (effective status, time-based, not the stored flag)
-     *  2. Candidate must belong to the given position
-     *  3. Candidate must be APPROVED
-     *  4. Student must not have already voted for this position (checked here AND
-     *     backstopped by the DB unique constraint for concurrent requests)
+     * Casts one vote.
+     *
+     * Rules:
+     *
+     * 1. Election must be ACTIVE.
+     * 2. Student must belong to the election department.
+     * 3. ALL / All Departments elections are available to everyone.
+     * 4. Candidate must belong to the selected position.
+     * 5. Candidate must be APPROVED.
+     * 6. Student cannot vote twice for the same position.
+     * 7. Database unique constraint protects against concurrent duplicate votes.
      */
     @Transactional
-    public VoteResponse castVote(Student student, VoteRequest request) {
-        Position position = positionRepository.findById(request.getPositionId())
-                .orElseThrow(() -> new ResourceNotFoundException("Position not found"));
+    public VoteResponse castVote(
+            Student student,
+            VoteRequest request) {
+
+        /*
+         * =========================================================
+         * 1. GET POSITION
+         * =========================================================
+         */
+
+        Position position = positionRepository
+                .findById(request.getPositionId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Position not found"));
+
+        /*
+         * Get election from position.
+         */
 
         Election election = position.getElection();
 
-        if (election.getEffectiveStatus() != ElectionStatus.ACTIVE) {
+        /*
+         * =========================================================
+         * 2. CHECK ELECTION STATUS
+         * =========================================================
+         */
+
+        if (election.getEffectiveStatus()
+                != ElectionStatus.ACTIVE) {
+
             throw new ElectionNotActiveException(
                     "Voting is not currently open for this election.");
         }
 
-        Candidate candidate = candidateService.getCandidateEntity(request.getCandidateId());
+        /*
+         * =========================================================
+         * 3. DEPARTMENT ELIGIBILITY CHECK
+         * =========================================================
+         *
+         * Examples:
+         *
+         * Election = ALL
+         * Student  = CSE
+         * Result   = ALLOW
+         *
+         * Election = All Departments
+         * Student  = CSE
+         * Result   = ALLOW
+         *
+         * Election = blank/null
+         * Student  = CSE
+         * Result   = ALLOW
+         *
+         * Election = CSE
+         * Student  = CSE
+         * Result   = ALLOW
+         *
+         * Election = ECE
+         * Student  = CSE
+         * Result   = REJECT
+         */
 
-        if (!candidate.getPosition().getId().equals(position.getId())) {
-            throw new IllegalArgumentException("This candidate is not running for the selected position.");
+        String electionDepartment =
+                election.getDepartment();
+
+        String studentDepartment =
+                student.getDepartment();
+
+        /*
+         * Normalize election department.
+         */
+
+        String normalizedElectionDepartment =
+                electionDepartment == null
+                        ? ""
+                        : electionDepartment.trim();
+
+        /*
+         * Normalize student department.
+         */
+
+        String normalizedStudentDepartment =
+                studentDepartment == null
+                        ? ""
+                        : studentDepartment.trim();
+
+        /*
+         * Check whether this is an All Departments election.
+         */
+
+        boolean isAllDepartments =
+                normalizedElectionDepartment.isEmpty()
+                || normalizedElectionDepartment
+                        .equalsIgnoreCase("ALL")
+                || normalizedElectionDepartment
+                        .equalsIgnoreCase("ALL DEPARTMENTS");
+
+        /*
+         * If election is NOT for all departments,
+         * then student department must match.
+         */
+
+        if (!isAllDepartments
+                && !normalizedElectionDepartment
+                        .equalsIgnoreCase(
+                                normalizedStudentDepartment)) {
+
+            throw new IllegalArgumentException(
+                    "You are not eligible to vote in this election.");
         }
 
-        if (candidate.getStatus() != CandidateStatus.APPROVED) {
-            throw new IllegalArgumentException("This candidate is not approved to receive votes.");
+        /*
+         * =========================================================
+         * 4. GET CANDIDATE
+         * =========================================================
+         */
+
+        Candidate candidate =
+                candidateService.getCandidateEntity(
+                        request.getCandidateId());
+
+        /*
+         * =========================================================
+         * 5. CHECK CANDIDATE POSITION
+         * =========================================================
+         *
+         * Candidate must belong to the position
+         * selected by the student.
+         */
+
+        if (!candidate.getPosition()
+                .getId()
+                .equals(position.getId())) {
+
+            throw new IllegalArgumentException(
+                    "This candidate is not running for the selected position.");
         }
 
-        // Pre-check for a fast, friendly error message in the common (non-race) case.
-        if (voteRepository.existsByStudentIdAndPositionId(student.getId(), position.getId())) {
-            throw new AlreadyVotedException("You have already voted for this position.");
+        /*
+         * =========================================================
+         * 6. CHECK CANDIDATE APPROVAL
+         * =========================================================
+         */
+
+        if (candidate.getStatus()
+                != CandidateStatus.APPROVED) {
+
+            throw new IllegalArgumentException(
+                    "This candidate is not approved to receive votes.");
         }
+
+        /*
+         * =========================================================
+         * 7. CHECK DUPLICATE VOTE
+         * =========================================================
+         *
+         * One student can vote only once for one position.
+         */
+
+        if (voteRepository.existsByStudentIdAndPositionId(
+                student.getId(),
+                position.getId())) {
+
+            throw new AlreadyVotedException(
+                    "You have already voted for this position.");
+        }
+
+        /*
+         * =========================================================
+         * 8. CREATE VOTE
+         * =========================================================
+         */
 
         Vote vote = Vote.builder()
                 .student(student)
@@ -71,45 +222,96 @@ public class VoteService {
                 .candidate(candidate)
                 .build();
 
+        /*
+         * =========================================================
+         * 9. SAVE VOTE
+         * =========================================================
+         */
+
         try {
+
             voteRepository.save(vote);
-            // Flush now so a concurrent duplicate insert is caught inside THIS
-            // transaction, as a DataIntegrityViolationException, rather than
-            // silently succeeding and being caught only at commit time.
+
+            /*
+             * Flush immediately.
+             *
+             * This helps detect duplicate votes caused by
+             * concurrent requests/database constraints.
+             */
+
             entityManager.flush();
+
         } catch (DataIntegrityViolationException ex) {
-            // The DB unique constraint caught a duplicate vote submitted concurrently
-            // (e.g. accidental double-click / double request) that slipped past the
-            // pre-check above. This is the backstop the spec requires.
-            throw new AlreadyVotedException("You have already voted for this position.");
+
+            throw new AlreadyVotedException(
+                    "You have already voted for this position.");
         }
+
+        /*
+         * =========================================================
+         * 10. SUCCESS RESPONSE
+         * =========================================================
+         */
 
         return VoteResponse.builder()
                 .success(true)
                 .positionTitle(position.getTitle())
-                .message("Your vote has been successfully recorded.")
+                .message(
+                        "Your vote has been successfully recorded.")
                 .build();
     }
 
     /**
-     * Voting status for a student across all positions in an election — used to render
-     * "voted / not voted" per position on the ballot. NEVER exposes which candidate was
-     * chosen; ballot privacy is preserved by keeping candidate choice out of this DTO
-     * entirely (see VotingStatusResponse).
+     * Returns voting status for a student
+     * across all positions in an election.
+     *
+     * The selected candidate is NOT exposed.
      */
-    public List<VotingStatusResponse> getVotingStatus(Student student, Long electionId) {
-        List<Position> positions = positionRepository.findByElectionId(electionId);
-        List<Vote> studentVotes = voteRepository.findByStudentIdAndElectionId(student.getId(), electionId);
-        List<Long> votedPositionIds = studentVotes.stream()
-                .map(v -> v.getPosition().getId())
-                .collect(Collectors.toList());
+    public List<VotingStatusResponse> getVotingStatus(
+            Student student,
+            Long electionId) {
+
+        /*
+         * Get all positions for election.
+         */
+
+        List<Position> positions =
+                positionRepository.findByElectionId(
+                        electionId);
+
+        /*
+         * Get votes already cast by this student.
+         */
+
+        List<Vote> studentVotes =
+                voteRepository.findByStudentIdAndElectionId(
+                        student.getId(),
+                        electionId);
+
+        /*
+         * Extract position IDs for which
+         * student has already voted.
+         */
+
+        List<Long> votedPositionIds =
+                studentVotes.stream()
+                        .map(v -> v.getPosition().getId())
+                        .collect(Collectors.toList());
+
+        /*
+         * Build voting status response.
+         */
 
         return positions.stream()
-                .map(p -> VotingStatusResponse.builder()
-                        .positionId(p.getId())
-                        .positionTitle(p.getTitle())
-                        .hasVoted(votedPositionIds.contains(p.getId()))
-                        .build())
+                .map(p ->
+                        VotingStatusResponse.builder()
+                                .positionId(p.getId())
+                                .positionTitle(p.getTitle())
+                                .hasVoted(
+                                        votedPositionIds
+                                                .contains(p.getId()))
+                                .build()
+                )
                 .collect(Collectors.toList());
     }
 }

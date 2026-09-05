@@ -27,13 +27,18 @@
             margin: 0;
             background: #f5f7fb;
             color: #1f2937;
-            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
-                         "Segoe UI", sans-serif;
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
         }
 
-        /* =====================================================
-           DESKTOP SIDEBAR
-        ===================================================== */
+        /* ================================
+           SIDEBAR
+        ================================= */
 
         .sidebar {
             position: fixed;
@@ -52,7 +57,7 @@
             display: flex;
             flex-direction: column;
 
-            transition: 0.3s ease;
+            transition: .3s ease;
         }
 
         .brand {
@@ -63,7 +68,8 @@
 
             padding: 10px 14px 25px;
 
-            border-bottom: 1px solid rgba(255,255,255,.1);
+            border-bottom:
+                1px solid rgba(255,255,255,.1);
 
             margin-bottom: 20px;
         }
@@ -89,7 +95,7 @@
 
             margin-bottom: 6px;
 
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .nav-link-custom:hover {
@@ -112,28 +118,29 @@
             margin-top: auto;
         }
 
-        /* =====================================================
+        /* ================================
            MAIN
-        ===================================================== */
+        ================================= */
 
         .main {
             margin-left: 250px;
 
             min-height: 100vh;
 
-            transition: 0.3s ease;
+            transition: .3s ease;
         }
 
-        /* =====================================================
+        /* ================================
            TOPBAR
-        ===================================================== */
+        ================================= */
 
         .topbar {
             height: 72px;
 
             background: white;
 
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom:
+                1px solid #e5e7eb;
 
             display: flex;
 
@@ -160,10 +167,6 @@
             font-size: 13px;
         }
 
-        /* =====================================================
-           MOBILE MENU BUTTON
-        ===================================================== */
-
         .mobile-menu-btn {
             display: none;
 
@@ -180,9 +183,9 @@
             padding: 2px 8px;
         }
 
-        /* =====================================================
+        /* ================================
            CONTENT
-        ===================================================== */
+        ================================= */
 
         .content {
             padding: 30px;
@@ -190,24 +193,52 @@
 
         .welcome {
             font-size: 28px;
-
             font-weight: 700;
         }
 
         .subtitle {
             color: #6b7280;
-
             margin-top: 5px;
         }
 
-        /* =====================================================
+        /* ================================
+           DASHBOARD HEADER
+        ================================= */
+
+        .dashboard-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+        }
+
+        .dashboard-actions {
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+        }
+
+        .last-updated {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* ================================
            STAT CARDS
-        ===================================================== */
+        ================================= */
 
         .stat-card {
             background: white;
 
-            border: 1px solid #e5e7eb;
+            border:
+                1px solid #e5e7eb;
 
             border-radius: 16px;
 
@@ -215,45 +246,49 @@
 
             height: 100%;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,.03);
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.03);
 
-            transition: 0.2s;
+            transition: .2s;
+
+            position: relative;
+
+            overflow: hidden;
         }
 
         .stat-card:hover {
             transform: translateY(-3px);
 
-            box-shadow: 0 10px 25px rgba(0,0,0,.07);
+            box-shadow:
+                0 10px 25px rgba(0,0,0,.07);
         }
 
         .stat-icon {
-            width: 44px;
-
-            height: 44px;
+            width: 46px;
+            height: 46px;
 
             border-radius: 12px;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             background: #eef2ff;
 
-            font-size: 20px;
+            font-size: 21px;
         }
 
         .stat-title {
             color: #6b7280;
 
-            font-size: 13px;
+            font-size: 12px;
 
-            font-weight: 600;
+            font-weight: 700;
 
             margin-top: 15px;
 
-            letter-spacing: .5px;
+            letter-spacing: .6px;
         }
 
         .stat-value {
@@ -261,17 +296,26 @@
 
             font-weight: 700;
 
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
-        /* =====================================================
+        .stat-description {
+            color: #9ca3af;
+
+            font-size: 12px;
+
+            margin-top: 5px;
+        }
+
+        /* ================================
            CHART CARDS
-        ===================================================== */
+        ================================= */
 
         .chart-card {
             background: white;
 
-            border: 1px solid #e5e7eb;
+            border:
+                1px solid #e5e7eb;
 
             border-radius: 16px;
 
@@ -279,7 +323,20 @@
 
             height: 100%;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,.03);
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.03);
+        }
+
+        .chart-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 15px;
         }
 
         .chart-title {
@@ -288,20 +345,35 @@
             font-weight: 700;
         }
 
+        .chart-subtitle {
+            color: #6b7280;
+
+            font-size: 12px;
+
+            margin-top: 3px;
+        }
+
         .chart-container {
             position: relative;
 
             height: 300px;
         }
 
-        /* =====================================================
+        /* ================================
            QUICK ACTIONS
-        ===================================================== */
+        ================================= */
+
+        .section-title {
+            font-size: 19px;
+
+            font-weight: 700;
+        }
 
         .quick-card {
             background: white;
 
-            border: 1px solid #e5e7eb;
+            border:
+                1px solid #e5e7eb;
 
             border-radius: 15px;
 
@@ -321,7 +393,8 @@
         .quick-card:hover {
             transform: translateY(-3px);
 
-            box-shadow: 0 8px 20px rgba(0,0,0,.07);
+            box-shadow:
+                0 8px 20px rgba(0,0,0,.07);
 
             color: #4f46e5;
         }
@@ -330,9 +403,112 @@
             font-size: 30px;
         }
 
-        /* =====================================================
+        .quick-description {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* ================================
+           SYSTEM STATUS
+        ================================= */
+
+        .status-card {
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.03);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            display: inline-block;
+
+            margin-right: 7px;
+        }
+
+        .status-online {
+            background: #22c55e;
+        }
+
+        .status-loading {
+            background: #f59e0b;
+        }
+
+        .status-error {
+            background: #ef4444;
+        }
+
+        /* ================================
+           LOADING
+        ================================= */
+
+        .loading-box {
+            text-align: center;
+
+            padding: 35px;
+
+            color: #6b7280;
+        }
+
+        .spinner {
+            width: 28px;
+            height: 28px;
+
+            border: 3px solid #e5e7eb;
+
+            border-top-color: #4f46e5;
+
+            border-radius: 50%;
+
+            animation:
+                spin .8s linear infinite;
+
+            margin: auto;
+        }
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        /* ================================
+           ERROR
+        ================================= */
+
+        .dashboard-error {
+            display: none;
+
+            background: #fef2f2;
+
+            border:
+                1px solid #fecaca;
+
+            color: #991b1b;
+
+            border-radius: 12px;
+
+            padding: 14px 16px;
+
+            margin-bottom: 20px;
+        }
+
+        /* ================================
            MOBILE OFFCANVAS
-        ===================================================== */
+        ================================= */
 
         .mobile-offcanvas {
             width: 270px !important;
@@ -384,9 +560,9 @@
             font-weight: 600;
         }
 
-        /* =====================================================
-           TABLET / MOBILE
-        ===================================================== */
+        /* ================================
+           TABLET
+        ================================= */
 
         @media (max-width: 900px) {
 
@@ -423,11 +599,12 @@
             .welcome {
                 font-size: 24px;
             }
+
         }
 
-        /* =====================================================
+        /* ================================
            SMALL MOBILE
-        ===================================================== */
+        ================================= */
 
         @media (max-width: 576px) {
 
@@ -462,6 +639,15 @@
             .quick-card {
                 padding: 18px;
             }
+
+            .dashboard-actions {
+                width: 100%;
+            }
+
+            .dashboard-actions button {
+                flex: 1;
+            }
+
         }
 
     </style>
@@ -565,27 +751,23 @@
 
 
 <!-- =========================================================
-     MAIN CONTENT
+     MAIN
 ========================================================= -->
 
 <main class="main">
 
 
-    <!-- TOP BAR -->
+    <!-- TOPBAR -->
 
     <header class="topbar">
 
-
         <div class="d-flex align-items-center gap-2">
-
-            <!-- MOBILE THREE LINE BUTTON -->
 
             <button
                 class="mobile-menu-btn"
                 type="button"
                 data-bs-toggle="offcanvas"
-                data-bs-target="#mobileMenu"
-                aria-controls="mobileMenu">
+                data-bs-target="#mobileMenu">
 
                 ☰
 
@@ -593,46 +775,90 @@
 
 
             <strong class="topbar-title">
+
                 Admin Dashboard
+
             </strong>
 
         </div>
 
 
         <span class="system-name">
-            College Voting System
-        </span>
 
+            College Voting System
+
+        </span>
 
     </header>
 
 
-    <!-- PAGE CONTENT -->
+    <!-- =====================================================
+         CONTENT
+    ===================================================== -->
 
     <div class="content">
 
 
-        <!-- WELCOME -->
+        <!-- HEADER -->
 
-        <div class="mb-4">
+        <div class="dashboard-header mb-4">
 
-            <div class="welcome">
+            <div>
 
-                Welcome,
-                <span id="adminName">
-                    Admin
-                </span>
+                <div class="welcome">
 
-                👋
+                    Welcome,
+
+                    <span id="adminName">
+                        Admin
+                    </span>
+
+                    👋
+
+                </div>
+
+                <div class="subtitle">
+
+                    Here's what's happening with your voting system.
+
+                </div>
 
             </div>
 
 
-            <div class="subtitle">
+            <div class="dashboard-actions">
 
-                Here's what's happening with your voting system.
+                <div class="last-updated">
+
+                    Last updated:
+                    <span id="lastUpdated">
+                        Loading...
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary"
+                    id="refreshBtn"
+                    onclick="loadStats(true)">
+
+                    🔄 Refresh
+
+                </button>
 
             </div>
+
+        </div>
+
+
+        <!-- ERROR MESSAGE -->
+
+        <div
+            id="dashboardError"
+            class="dashboard-error">
+
+            ⚠️ Unable to load dashboard statistics.
 
         </div>
 
@@ -645,6 +871,93 @@
             class="row g-3 mb-4"
             id="statsCards">
 
+            <div class="col-12">
+
+                <div class="loading-box">
+
+                    <div class="spinner"></div>
+
+                    <div class="mt-3">
+                        Loading dashboard...
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SYSTEM STATUS
+        ================================================= -->
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-lg-8">
+
+                <div class="status-card">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+                        <div>
+
+                            <div class="fw-bold">
+                                System Overview
+                            </div>
+
+                            <div class="small text-muted">
+                                Current status of your voting platform
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                id="systemStatusDot"
+                                class="status-dot status-loading">
+                            </span>
+
+                            <span id="systemStatus">
+                                Checking...
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="status-card">
+
+                    <div class="fw-bold">
+                        📊 Dashboard
+                    </div>
+
+                    <div class="small text-muted mt-1">
+
+                        Real-time statistics
+
+                    </div>
+
+                    <div class="small mt-2">
+
+                        Auto refresh available using the
+                        <b>Refresh</b> button.
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
 
@@ -655,24 +968,35 @@
         <div class="row g-4 mb-4">
 
 
-            <!-- DEPARTMENT CHART -->
+            <!-- DEPARTMENT -->
 
             <div class="col-lg-6">
 
                 <div class="chart-card">
 
-                    <div class="chart-title mb-1">
+                    <div class="chart-header">
 
-                        Turnout by Department
+                        <div>
+
+                            <div class="chart-title">
+
+                                Turnout by Department
+
+                            </div>
+
+                            <div class="chart-subtitle">
+
+                                Voter participation by department
+
+                            </div>
+
+                        </div>
+
+                        <span class="badge text-bg-light">
+                            Department
+                        </span>
 
                     </div>
-
-
-                    <p class="text-muted small mb-3">
-
-                        Voter participation by department.
-
-                    </p>
 
 
                     <div class="chart-container">
@@ -686,24 +1010,35 @@
             </div>
 
 
-            <!-- YEAR CHART -->
+            <!-- YEAR -->
 
             <div class="col-lg-6">
 
                 <div class="chart-card">
 
-                    <div class="chart-title mb-1">
+                    <div class="chart-header">
 
-                        Turnout by Year
+                        <div>
+
+                            <div class="chart-title">
+
+                                Turnout by Academic Year
+
+                            </div>
+
+                            <div class="chart-subtitle">
+
+                                Voter participation by academic year
+
+                            </div>
+
+                        </div>
+
+                        <span class="badge text-bg-light">
+                            Academic
+                        </span>
 
                     </div>
-
-
-                    <p class="text-muted small mb-3">
-
-                        Voter participation by academic year.
-
-                    </p>
 
 
                     <div class="chart-container">
@@ -716,6 +1051,50 @@
 
             </div>
 
+
+        </div>
+
+
+        <!-- =================================================
+             ELECTION ANALYTICS
+        ================================================= -->
+
+        <div class="chart-card mb-4">
+
+            <div class="chart-header">
+
+                <div>
+
+                    <div class="chart-title">
+
+                        📈 Voting Performance
+
+                    </div>
+
+                    <div class="chart-subtitle">
+
+                        Overall voting activity
+
+                    </div>
+
+                </div>
+
+                <span class="badge text-bg-primary">
+
+                    Analytics
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="chart-container">
+
+                <canvas id="performanceChart"></canvas>
+
+            </div>
+
         </div>
 
 
@@ -723,14 +1102,14 @@
              QUICK ACTIONS
         ================================================= -->
 
-        <h5 class="fw-bold mb-3">
+        <div class="section-title mb-3">
 
-            Quick Actions
+            ⚡ Quick Actions
 
-        </h5>
+        </div>
 
 
-        <div class="row g-3">
+        <div class="row g-3 mb-4">
 
 
             <!-- ELECTIONS -->
@@ -745,19 +1124,17 @@
                         🗳️
                     </div>
 
-
                     <h6 class="mt-3 fw-bold">
 
                         Manage Elections
 
                     </h6>
 
+                    <div class="quick-description">
 
-                    <small class="text-muted">
+                        Create, start, close and manage elections.
 
-                        Create and manage elections
-
-                    </small>
+                    </div>
 
                 </a>
 
@@ -776,19 +1153,46 @@
                         👨‍🎓
                     </div>
 
-
                     <h6 class="mt-3 fw-bold">
 
                         Manage Students
 
                     </h6>
 
+                    <div class="quick-description">
 
-                    <small class="text-muted">
+                        Add and manage student accounts.
 
-                        Add and manage students
+                    </div>
 
-                    </small>
+                </a>
+
+            </div>
+
+
+            <!-- CANDIDATES -->
+
+            <div class="col-xl-3 col-md-6">
+
+                <a
+                    href="/admin/candidates"
+                    class="quick-card">
+
+                    <div class="quick-icon">
+                        👥
+                    </div>
+
+                    <h6 class="mt-3 fw-bold">
+
+                        Manage Candidates
+
+                    </h6>
+
+                    <div class="quick-description">
+
+                        Review and manage election candidates.
+
+                    </div>
 
                 </a>
 
@@ -807,26 +1211,32 @@
                         📈
                     </div>
 
-
                     <h6 class="mt-3 fw-bold">
 
                         View Results
 
                     </h6>
 
+                    <div class="quick-description">
 
-                    <small class="text-muted">
+                        View election results and voting data.
 
-                        View election results
-
-                    </small>
+                    </div>
 
                 </a>
 
             </div>
 
 
-            <!-- AUDIT LOGS -->
+        </div>
+
+
+        <!-- =================================================
+             SECOND QUICK ACTION ROW
+        ================================================= -->
+
+        <div class="row g-3">
+
 
             <div class="col-xl-3 col-md-6">
 
@@ -838,21 +1248,100 @@
                         📋
                     </div>
 
-
                     <h6 class="mt-3 fw-bold">
 
                         Audit Logs
 
                     </h6>
 
+                    <div class="quick-description">
 
-                    <small class="text-muted">
+                        Track administrator actions.
 
-                        Track administrator actions
-
-                    </small>
+                    </div>
 
                 </a>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <a
+                    href="/admin/elections"
+                    class="quick-card">
+
+                    <div class="quick-icon">
+                        ⏱️
+                    </div>
+
+                    <h6 class="mt-3 fw-bold">
+
+                        Election Control
+
+                    </h6>
+
+                    <div class="quick-description">
+
+                        Monitor upcoming and active elections.
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <a
+                    href="/admin/results"
+                    class="quick-card">
+
+                    <div class="quick-icon">
+                        🏆
+                    </div>
+
+                    <h6 class="mt-3 fw-bold">
+
+                        Election Results
+
+                    </h6>
+
+                    <div class="quick-description">
+
+                        Analyze election performance.
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <button
+                    class="quick-card border-0 w-100 text-start"
+                    onclick="loadStats(true)">
+
+                    <div class="quick-icon">
+                        🔄
+                    </div>
+
+                    <h6 class="mt-3 fw-bold">
+
+                        Refresh Analytics
+
+                    </h6>
+
+                    <div class="quick-description">
+
+                        Fetch the latest statistics.
+
+                    </div>
+
+                </button>
 
             </div>
 
@@ -866,21 +1355,19 @@
 
 
 <!-- =========================================================
-     MOBILE OFFCANVAS MENU
+     MOBILE MENU
 ========================================================= -->
 
 <div
     class="offcanvas offcanvas-start mobile-offcanvas"
     tabindex="-1"
-    id="mobileMenu"
-    aria-labelledby="mobileMenuLabel">
+    id="mobileMenu">
 
 
     <div class="offcanvas-header">
 
         <h5
-            class="offcanvas-title mobile-brand"
-            id="mobileMenuLabel">
+            class="offcanvas-title mobile-brand">
 
             College
             <span>Voting</span>
@@ -891,8 +1378,7 @@
         <button
             type="button"
             class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close">
+            data-bs-dismiss="offcanvas">
 
         </button>
 
@@ -1020,384 +1506,694 @@
        CHART VARIABLES
     ========================================================= */
 
-    let deptChart;
+    let deptChart = null;
 
-    let yearChart;
+    let yearChart = null;
+
+    let performanceChart = null;
 
 
     /* =========================================================
-       LOAD DASHBOARD STATISTICS
+       FORMAT NUMBER
     ========================================================= */
 
-    async function loadStats() {
+    function formatNumber(value) {
 
-        const res =
-            await authFetch('/api/admin/dashboard/stats');
-
-
-        if (!res) return;
-
-
-        const s =
-            await res.json();
-
-
-        /* =====================================================
-           STATISTICS CARDS
-        ===================================================== */
-
-        document.getElementById('statsCards').innerHTML = `
-
-
-            <!-- STUDENTS -->
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        👨‍🎓
-                    </div>
-
-                    <div class="stat-title">
-                        STUDENTS
-                    </div>
-
-                    <div class="stat-value">
-                        ${s.totalStudents}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- CANDIDATES -->
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        👥
-                    </div>
-
-                    <div class="stat-title">
-                        CANDIDATES
-                    </div>
-
-                    <div class="stat-value">
-                        ${s.totalCandidates}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ELECTIONS -->
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        🗳️
-                    </div>
-
-                    <div class="stat-title">
-                        ELECTIONS
-                    </div>
-
-                    <div class="stat-value">
-                        ${s.totalElections}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ACTIVE -->
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        🟢
-                    </div>
-
-                    <div class="stat-title">
-                        ACTIVE
-                    </div>
-
-                    <div class="stat-value">
-                        ${s.activeElections}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- VOTES -->
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        🗳️
-                    </div>
-
-                    <div class="stat-title">
-                        VOTES
-                    </div>
-
-                    <div class="stat-value">
-                        ${s.totalVotesCast}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- TURNOUT -->
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">
-                        📊
-                    </div>
-
-                    <div class="stat-title">
-                        TURNOUT
-                    </div>
-
-                    <div class="stat-value">
-                        ${s.overallTurnoutPercentage}%
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        /* =====================================================
-           DEPARTMENT DATA
-        ===================================================== */
-
-        const deptLabels =
-            Object.keys(s.departmentTurnout || {});
-
-
-        const deptValues =
-            Object.values(s.departmentTurnout || {});
-
-
-        /* =====================================================
-           YEAR DATA
-        ===================================================== */
-
-        const yearLabels =
-            Object.keys(s.yearTurnout || {});
-
-
-        const yearValues =
-            Object.values(s.yearTurnout || {});
-
-
-        /* =====================================================
-           DESTROY OLD CHARTS
-        ===================================================== */
-
-        if (deptChart) {
-
-            deptChart.destroy();
-
+        if (value === null || value === undefined) {
+            return 0;
         }
 
-
-        if (yearChart) {
-
-            yearChart.destroy();
-
-        }
-
-
-        /* =====================================================
-           DEPARTMENT CHART
-        ===================================================== */
-
-        deptChart = new Chart(
-
-            document.getElementById('deptChart'),
-
-            {
-
-                type: 'bar',
-
-
-                data: {
-
-                    labels:
-                        deptLabels.length
-                            ? deptLabels
-                            : ['No data'],
-
-
-                    datasets: [
-
-                        {
-
-                            label: 'Voters',
-
-                            data:
-                                deptValues.length
-                                    ? deptValues
-                                    : [0]
-
-                        }
-
-                    ]
-
-                },
-
-
-                options: {
-
-                    responsive: true,
-
-                    maintainAspectRatio: false,
-
-
-                    plugins: {
-
-                        legend: {
-
-                            display: false
-
-                        }
-
-                    },
-
-
-                    scales: {
-
-                        y: {
-
-                            beginAtZero: true,
-
-                            ticks: {
-
-                                precision: 0
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-        );
-
-
-        /* =====================================================
-           YEAR CHART
-        ===================================================== */
-
-        yearChart = new Chart(
-
-            document.getElementById('yearChart'),
-
-            {
-
-                type: 'bar',
-
-
-                data: {
-
-                    labels:
-                        yearLabels.length
-                            ? yearLabels
-                            : ['No data'],
-
-
-                    datasets: [
-
-                        {
-
-                            label: 'Voters',
-
-                            data:
-                                yearValues.length
-                                    ? yearValues
-                                    : [0]
-
-                        }
-
-                    ]
-
-                },
-
-
-                options: {
-
-                    responsive: true,
-
-                    maintainAspectRatio: false,
-
-
-                    plugins: {
-
-                        legend: {
-
-                            display: false
-
-                        }
-
-                    },
-
-
-                    scales: {
-
-                        y: {
-
-                            beginAtZero: true,
-
-                            ticks: {
-
-                                precision: 0
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-        );
+        return Number(value).toLocaleString();
 
     }
 
 
     /* =========================================================
-       LOAD DATA
+       UPDATE SYSTEM STATUS
+    ========================================================= */
+
+    function updateSystemStatus(type, message) {
+
+        const dot =
+            document.getElementById('systemStatusDot');
+
+        const status =
+            document.getElementById('systemStatus');
+
+
+        dot.className = 'status-dot';
+
+
+        if (type === 'online') {
+
+            dot.classList.add('status-online');
+
+        } else if (type === 'error') {
+
+            dot.classList.add('status-error');
+
+        } else {
+
+            dot.classList.add('status-loading');
+
+        }
+
+
+        status.textContent = message;
+
+    }
+
+
+    /* =========================================================
+       SHOW ERROR
+    ========================================================= */
+
+    function showError(message) {
+
+        const box =
+            document.getElementById('dashboardError');
+
+        box.textContent =
+            '⚠️ ' + message;
+
+        box.style.display = 'block';
+
+    }
+
+
+    /* =========================================================
+       HIDE ERROR
+    ========================================================= */
+
+    function hideError() {
+
+        document.getElementById(
+            'dashboardError'
+        ).style.display = 'none';
+
+    }
+
+
+    /* =========================================================
+       LOAD DASHBOARD
+    ========================================================= */
+
+    async function loadStats(isRefresh = false) {
+
+        const refreshBtn =
+            document.getElementById('refreshBtn');
+
+
+        try {
+
+            updateSystemStatus(
+                'loading',
+                'Loading statistics...'
+            );
+
+
+            hideError();
+
+
+            if (isRefresh) {
+
+                refreshBtn.disabled = true;
+
+                refreshBtn.innerHTML =
+                    '⏳ Loading...';
+
+            }
+
+
+            const res =
+                await authFetch(
+                    '/api/admin/dashboard/stats'
+                );
+
+
+            if (!res) {
+
+                throw new Error(
+                    'Authentication failed or server unavailable.'
+                );
+
+            }
+
+
+            if (!res.ok) {
+
+                throw new Error(
+                    'Dashboard API returned HTTP ' +
+                    res.status
+                );
+
+            }
+
+
+            const s =
+                await res.json();
+
+
+            /* =================================================
+               STATISTICS CARDS
+            ================================================= */
+
+            document.getElementById(
+                'statsCards'
+            ).innerHTML = `
+
+                <!-- STUDENTS -->
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            👨‍🎓
+                        </div>
+
+                        <div class="stat-title">
+                            STUDENTS
+                        </div>
+
+                        <div class="stat-value">
+                            ${formatNumber(s.totalStudents)}
+                        </div>
+
+                        <div class="stat-description">
+                            Registered students
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CANDIDATES -->
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            👥
+                        </div>
+
+                        <div class="stat-title">
+                            CANDIDATES
+                        </div>
+
+                        <div class="stat-value">
+                            ${formatNumber(s.totalCandidates)}
+                        </div>
+
+                        <div class="stat-description">
+                            Election candidates
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ELECTIONS -->
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🗳️
+                        </div>
+
+                        <div class="stat-title">
+                            ELECTIONS
+                        </div>
+
+                        <div class="stat-value">
+                            ${formatNumber(s.totalElections)}
+                        </div>
+
+                        <div class="stat-description">
+                            Total elections
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVE -->
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🟢
+                        </div>
+
+                        <div class="stat-title">
+                            ACTIVE
+                        </div>
+
+                        <div class="stat-value">
+                            ${formatNumber(s.activeElections)}
+                        </div>
+
+                        <div class="stat-description">
+                            Currently active
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VOTES -->
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🗳️
+                        </div>
+
+                        <div class="stat-title">
+                            VOTES
+                        </div>
+
+                        <div class="stat-value">
+                            ${formatNumber(s.totalVotesCast)}
+                        </div>
+
+                        <div class="stat-description">
+                            Votes cast
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TURNOUT -->
+
+                <div class="col-xl-2 col-md-4 col-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📊
+                        </div>
+
+                        <div class="stat-title">
+                            TURNOUT
+                        </div>
+
+                        <div class="stat-value">
+                            ${s.overallTurnoutPercentage ?? 0}%
+                        </div>
+
+                        <div class="stat-description">
+                            Overall participation
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            /* =================================================
+               DEPARTMENT DATA
+            ================================================= */
+
+            const deptData =
+                s.departmentTurnout || {};
+
+
+            const deptLabels =
+                Object.keys(deptData);
+
+
+            const deptValues =
+                Object.values(deptData);
+
+
+            /* =================================================
+               YEAR DATA
+            ================================================= */
+
+            const yearData =
+                s.yearTurnout || {};
+
+
+            const yearLabels =
+                Object.keys(yearData);
+
+
+            const yearValues =
+                Object.values(yearData);
+
+
+            /* =================================================
+               DESTROY OLD CHARTS
+            ================================================= */
+
+            if (deptChart) {
+
+                deptChart.destroy();
+
+            }
+
+
+            if (yearChart) {
+
+                yearChart.destroy();
+
+            }
+
+
+            if (performanceChart) {
+
+                performanceChart.destroy();
+
+            }
+
+
+            /* =================================================
+               DEPARTMENT CHART
+            ================================================= */
+
+            deptChart = new Chart(
+
+                document.getElementById(
+                    'deptChart'
+                ),
+
+                {
+
+                    type: 'bar',
+
+                    data: {
+
+                        labels:
+                            deptLabels.length
+                                ? deptLabels
+                                : ['No data'],
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    'Voters',
+
+                                data:
+                                    deptValues.length
+                                        ? deptValues
+                                        : [0]
+
+                            }
+
+                        ]
+
+                    },
+
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        plugins: {
+
+                            legend: {
+
+                                display: false
+
+                            }
+
+                        },
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                ticks: {
+
+                                    precision: 0
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+
+            /* =================================================
+               YEAR CHART
+            ================================================= */
+
+            yearChart = new Chart(
+
+                document.getElementById(
+                    'yearChart'
+                ),
+
+                {
+
+                    type: 'doughnut',
+
+                    data: {
+
+                        labels:
+                            yearLabels.length
+                                ? yearLabels
+                                : ['No data'],
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    'Voters',
+
+                                data:
+                                    yearValues.length
+                                        ? yearValues
+                                        : [1]
+
+                            }
+
+                        ]
+
+                    },
+
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        plugins: {
+
+                            legend: {
+
+                                position: 'bottom'
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+
+            /* =================================================
+               PERFORMANCE CHART
+            ================================================= */
+
+            performanceChart = new Chart(
+
+                document.getElementById(
+                    'performanceChart'
+                ),
+
+                {
+
+                    type: 'bar',
+
+                    data: {
+
+                        labels: [
+                            'Students',
+                            'Candidates',
+                            'Elections',
+                            'Active Elections',
+                            'Votes'
+                        ],
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    'System Statistics',
+
+                                data: [
+
+                                    Number(
+                                        s.totalStudents || 0
+                                    ),
+
+                                    Number(
+                                        s.totalCandidates || 0
+                                    ),
+
+                                    Number(
+                                        s.totalElections || 0
+                                    ),
+
+                                    Number(
+                                        s.activeElections || 0
+                                    ),
+
+                                    Number(
+                                        s.totalVotesCast || 0
+                                    )
+
+                                ]
+
+                            }
+
+                        ]
+
+                    },
+
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        plugins: {
+
+                            legend: {
+
+                                display: false
+
+                            }
+
+                        },
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                ticks: {
+
+                                    precision: 0
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+
+            /* =================================================
+               LAST UPDATED
+            ================================================= */
+
+            const now =
+                new Date();
+
+
+            document.getElementById(
+                'lastUpdated'
+            ).textContent =
+                now.toLocaleTimeString();
+
+
+            /* =================================================
+               SYSTEM ONLINE
+            ================================================= */
+
+            updateSystemStatus(
+                'online',
+                'System Online'
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                'Dashboard error:',
+                error
+            );
+
+
+            showError(
+                error.message ||
+                'Unable to load dashboard statistics.'
+            );
+
+
+            updateSystemStatus(
+                'error',
+                'Unable to load'
+            );
+
+        }
+
+        finally {
+
+            if (isRefresh) {
+
+                refreshBtn.disabled = false;
+
+                refreshBtn.innerHTML =
+                    '🔄 Refresh';
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================================================
+       INITIAL LOAD
     ========================================================= */
 
     loadStats();
+
 
 </script>
 

@@ -26,4 +26,6 @@ public class UpdateProfileRequest {
 
     @Size(max = 20, message = "Phone number must not exceed 20 characters")
     private String phoneNumber;
+
+    private String profileImage;
 }

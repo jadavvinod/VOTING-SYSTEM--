@@ -33,14 +33,23 @@ public class AuthService {
 
     @Transactional
     public StudentResponse registerStudent(RegisterRequest request) {
+
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new IllegalArgumentException("Password and confirm password do not match");
+            throw new IllegalArgumentException(
+                    "Password and confirm password do not match"
+            );
         }
+
         if (studentRepository.existsByStudentId(request.getStudentId())) {
-            throw new DuplicateResourceException("Student ID is already registered");
+            throw new DuplicateResourceException(
+                    "Student ID is already registered"
+            );
         }
+
         if (studentRepository.existsByEmail(request.getEmail())) {
-            throw new DuplicateResourceException("Email is already registered");
+            throw new DuplicateResourceException(
+                    "Email is already registered"
+            );
         }
 
         Student student = Student.builder()
@@ -56,42 +65,59 @@ public class AuthService {
                 .build();
 
         Student saved = studentRepository.save(student);
+
         return StudentResponse.fromEntity(saved);
     }
 
     public LoginResponse login(LoginRequest request) {
+
         String email = request.getEmail();
 
         if (loginAttemptService.isLocked(email)) {
             throw new UnauthorizedException(
-                    "Too many failed login attempts. Try again in " +
-                    loginAttemptService.minutesUntilUnlock(email) + " minute(s).");
+                    "Too many failed login attempts. Try again in "
+                            + loginAttemptService.minutesUntilUnlock(email)
+                            + " minute(s)."
+            );
         }
 
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, request.getPassword())
+                    new UsernamePasswordAuthenticationToken(
+                            email,
+                            request.getPassword()
+                    )
             );
         } catch (BadCredentialsException ex) {
             loginAttemptService.recordFailure(email);
-            throw new UnauthorizedException("Invalid email or password");
+            throw new UnauthorizedException(
+                    "Invalid email or password"
+            );
         }
 
         loginAttemptService.recordSuccess(email);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        UserDetails userDetails =
+                userDetailsService.loadUserByUsername(email);
 
         String role;
         String fullName;
 
         if (userDetails instanceof Student student) {
+
             role = student.getRole().name();
             fullName = student.getFullName();
+
         } else if (userDetails instanceof Admin admin) {
+
             role = admin.getRole().name();
             fullName = admin.getFullName();
+
         } else {
-            throw new UnauthorizedException("Invalid email or password");
+
+            throw new UnauthorizedException(
+                    "Invalid email or password"
+            );
         }
 
         String token = jwtUtil.generateToken(userDetails, role);
@@ -105,22 +131,29 @@ public class AuthService {
     }
 
     /**
-     * Starts the forgot-password flow. Always returns the same generic message
-     * regardless of whether the email exists, to avoid leaking which emails are
-     * registered. No real SMTP is wired in this project, so the raw OTP is returned
-     * in devOnlyOtp so the flow is testable — remove that before using this in
-     * production, and send the OTP via Spring Mail instead (see application.properties).
+     * Starts the forgot-password flow.
      */
     @Transactional
-    public MessageResponse forgotPassword(ForgotPasswordRequest request) {
-        boolean exists = studentRepository.existsByEmail(request.getEmail());
-        String genericMessage = "If an account exists for that email, a reset code has been sent.";
+    public MessageResponse forgotPassword(
+            ForgotPasswordRequest request) {
+
+        boolean exists =
+                studentRepository.existsByEmail(request.getEmail());
+
+        String genericMessage =
+                "If an account exists for that email, a reset code has been sent.";
 
         if (!exists) {
-            return MessageResponse.builder().message(genericMessage).build();
+            return MessageResponse.builder()
+                    .message(genericMessage)
+                    .build();
         }
 
-        String otp = otpService.generateOtp(request.getEmail(), OtpPurpose.PASSWORD_RESET);
+        String otp =
+                otpService.generateOtp(
+                        request.getEmail(),
+                        OtpPurpose.PASSWORD_RESET
+                );
 
         return MessageResponse.builder()
                 .message(genericMessage)
@@ -129,48 +162,109 @@ public class AuthService {
     }
 
     @Transactional
-    public MessageResponse resetPassword(ResetPasswordRequest request) {
-        if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
-            throw new IllegalArgumentException("New password and confirmation do not match");
+    public MessageResponse resetPassword(
+            ResetPasswordRequest request) {
+
+        if (!request.getNewPassword()
+                .equals(request.getConfirmNewPassword())) {
+
+            throw new IllegalArgumentException(
+                    "New password and confirmation do not match"
+            );
         }
 
-        otpService.verifyOtp(request.getEmail(), OtpPurpose.PASSWORD_RESET, request.getOtp());
+        otpService.verifyOtp(
+                request.getEmail(),
+                OtpPurpose.PASSWORD_RESET,
+                request.getOtp()
+        );
 
-        Student student = studentRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UnauthorizedException("Invalid request"));
+        Student student =
+                studentRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() ->
+                                new UnauthorizedException(
+                                        "Invalid request"
+                                )
+                        );
 
-        student.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        student.setPassword(
+                passwordEncoder.encode(
+                        request.getNewPassword()
+                )
+        );
+
         studentRepository.save(student);
-        loginAttemptService.recordSuccess(request.getEmail()); // clear any lockout
 
-        return MessageResponse.builder().message("Password reset successfully. You can now log in.").build();
+        loginAttemptService.recordSuccess(
+                request.getEmail()
+        );
+
+        return MessageResponse.builder()
+                .message(
+                        "Password reset successfully. You can now log in."
+                )
+                .build();
     }
 
     @Transactional
-    public MessageResponse changePassword(Student student, ChangePasswordRequest request) {
-        if (!passwordEncoder.matches(request.getCurrentPassword(), student.getPassword())) {
-            throw new UnauthorizedException("Current password is incorrect");
-        }
-        if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
-            throw new IllegalArgumentException("New password and confirmation do not match");
+    public MessageResponse changePassword(
+            Student student,
+            ChangePasswordRequest request) {
+
+        if (!passwordEncoder.matches(
+                request.getCurrentPassword(),
+                student.getPassword()
+        )) {
+
+            throw new UnauthorizedException(
+                    "Current password is incorrect"
+            );
         }
 
-        student.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        if (!request.getNewPassword()
+                .equals(request.getConfirmNewPassword())) {
+
+            throw new IllegalArgumentException(
+                    "New password and confirmation do not match"
+            );
+        }
+
+        student.setPassword(
+                passwordEncoder.encode(
+                        request.getNewPassword()
+                )
+        );
+
         studentRepository.save(student);
 
-        return MessageResponse.builder().message("Password changed successfully.").build();
+        return MessageResponse.builder()
+                .message("Password changed successfully.")
+                .build();
     }
+
     @Transactional
-public StudentResponse updateProfile(Student student, UpdateProfileRequest request) {
+    public StudentResponse updateProfile(
+            Student student,
+            UpdateProfileRequest request) {
 
-    student.setFullName(request.getFullName());
-    student.setDepartment(request.getDepartment());
-    student.setCourse(request.getCourse());
-    student.setYear(request.getYear());
-    student.setPhoneNumber(request.getPhoneNumber());
+        student.setFullName(request.getFullName());
+        student.setDepartment(request.getDepartment());
+        student.setCourse(request.getCourse());
+        student.setYear(request.getYear());
+        student.setPhoneNumber(request.getPhoneNumber());
 
-    Student savedStudent = studentRepository.save(student);
+        // Save profile picture if provided
+        if (request.getProfileImage() != null
+                && !request.getProfileImage().isBlank()) {
 
-    return StudentResponse.fromEntity(savedStudent);
-}
+            student.setProfileImage(
+                    request.getProfileImage()
+            );
+        }
+
+        Student savedStudent =
+                studentRepository.save(student);
+
+        return StudentResponse.fromEntity(savedStudent);
+    }
 }

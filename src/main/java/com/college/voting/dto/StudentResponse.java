@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentResponse {
+
     private Long id;
     private String studentId;
     private String fullName;
@@ -19,6 +20,7 @@ public class StudentResponse {
     private String course;
     private String year;
     private String phoneNumber;
+    private String profileImage;
     private String status;
 
     public static StudentResponse fromEntity(Student s) {
@@ -31,6 +33,7 @@ public class StudentResponse {
                 .course(s.getCourse())
                 .year(s.getYear())
                 .phoneNumber(s.getPhoneNumber())
+                .profileImage(s.getProfileImage())
                 .status(s.getStatus().name())
                 .build();
     }

@@ -59,6 +59,10 @@ public class Student implements UserDetails {
     @Column(length = 20)
     private String phoneNumber;
 
+    @Lob
+    @Column(name = "profile_image", columnDefinition = "LONGTEXT")
+    private String profileImage;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Builder.Default
@@ -78,10 +82,10 @@ public class Student implements UserDetails {
     }
 
     public enum AccountStatus {
-        ACTIVE, PENDING, DISABLED
+        ACTIVE,
+        PENDING,
+        DISABLED
     }
-
-    // ----- UserDetails implementation -----
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

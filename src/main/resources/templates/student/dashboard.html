@@ -1,478 +1,1108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Student Dashboard | College Voting</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
             background: #f5f7fb;
             color: #172033;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
-        .topbar {
-            background: linear-gradient(135deg, #4f46e5, #2563eb);
-            min-height: 72px;
-            box-shadow: 0 5px 20px rgba(37, 99, 235, .18);
-        }
-
-        .brand {
-            color: white;
-            font-size: 21px;
-            font-weight: 700;
+        a {
             text-decoration: none;
         }
 
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .topbar {
+            min-height: 76px;
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #2563eb
+            );
+            box-shadow:
+                0 8px 30px rgba(37, 99, 235, .20);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .brand:hover {
+            color: white;
+        }
+
         .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
+            width: 45px;
+            height: 45px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            margin-right: 11px;
+            border-radius: 14px;
             background: rgba(255,255,255,.18);
-            margin-right: 10px;
+            border: 1px solid rgba(255,255,255,.25);
+            font-size: 22px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-btn {
-            border: 1px solid rgba(255,255,255,.5);
             color: white;
-            border-radius: 10px;
-            padding: 9px 15px;
-            transition: .25s;
-        }
-
-        .nav-btn:hover {
-            background: white;
-            color: #2563eb;
-        }
-
-        /* PROFILE */
-
-        .profile-wrapper {
-            position: relative;
-        }
-
-        .profile-btn {
-            width: 45px;
-            height: 45px;
-            padding: 0;
-            border: 2px solid rgba(255,255,255,.8);
-            border-radius: 50%;
-            background: white;
-            overflow: hidden;
-            cursor: pointer;
+            border: 1px solid rgba(255,255,255,.40);
+            border-radius: 11px;
+            padding: 8px 13px;
+            font-weight: 600;
             transition: .2s;
         }
 
-        .profile-btn:hover {
-            transform: scale(1.05);
+        .nav-btn:hover {
+            color: #2563eb;
+            background: white;
         }
 
-        .profile-btn img {
+        /* =========================================================
+           PROFILE
+        ========================================================= */
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 125px;
+            justify-content: center;
+        }
+
+        .profile-avatar {
+            width: 33px;
+            height: 33px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.22);
+            border: 2px solid rgba(255,255,255,.75);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .profile-default {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4f46e5;
-            font-size: 21px;
-            background: #eef2ff;
+        .profile-name {
+            max-width: 105px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .profile-menu {
-            min-width: 280px;
+            width: 290px;
+            margin-top: 10px;
             padding: 8px;
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(15,23,42,.18);
+            border: 1px solid #e2e8f0;
+            border-radius: 17px;
+            box-shadow: 0 18px 45px rgba(15,23,42,.16);
         }
 
-        .profile-header {
+        .profile-menu-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             padding: 12px;
-            border-radius: 12px;
-            background: #f8fafc;
-            margin-bottom: 6px;
         }
 
-        .profile-header-name {
-            font-weight: 700;
-            color: #172033;
-        }
-
-        .profile-email {
-            font-size: 13px;
-            color: #64748b;
-            word-break: break-word;
-        }
-
-        .profile-item {
-            border-radius: 10px;
-            padding: 10px 12px;
-            font-weight: 500;
-        }
-
-        .profile-item:hover {
+        .profile-menu-avatar {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             background: #eef2ff;
+            color: #4f46e5;
+            border: 2px solid #e0e7ff;
+            font-size: 21px;
+        }
+
+        .profile-menu-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-menu-name {
+            font-weight: 750;
+            color: #172033;
+            font-size: 15px;
+        }
+
+        .profile-menu-email {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 2px;
+            max-width: 195px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .profile-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 12px;
+            border-radius: 10px;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .profile-menu .dropdown-item:hover {
+            background: #f1f5ff;
+            color: #4f46e5;
+        }
+
+        .profile-menu .dropdown-item i {
+            width: 20px;
+            font-size: 17px;
         }
 
         .logout-item {
-            color: #dc3545;
+            width: 100%;
+            border: 0;
+            background: transparent;
+            text-align: left;
         }
 
         .logout-item:hover {
-            background: #fff1f2;
-            color: #dc3545;
+            background: #fff1f2 !important;
+            color: #dc2626 !important;
         }
 
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .main-container {
+            max-width: 1220px;
+            margin: auto;
+            padding-bottom: 55px;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
         .hero {
-            margin-top: 35px;
-            padding: 38px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #eef2ff, #eff6ff);
-            border: 1px solid #dbe4ff;
             position: relative;
             overflow: hidden;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            padding: 35px;
+            border-radius: 26px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff 0%,
+                    #eff6ff 50%,
+                    #ffffff 100%
+                );
+            border: 1px solid #dbe5ff;
+            box-shadow:
+                0 12px 35px rgba(37,99,235,.07);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            right: -90px;
+            top: -120px;
+            border-radius: 50%;
+            background: rgba(79,70,229,.08);
         }
 
         .hero::after {
             content: "";
             position: absolute;
-            width: 220px;
-            height: 220px;
+            width: 170px;
+            height: 170px;
+            right: 90px;
+            bottom: -110px;
             border-radius: 50%;
-            background: rgba(79,70,229,.08);
-            right: -60px;
-            top: -70px;
+            background: rgba(37,99,235,.06);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-icon {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 17px;
+            background: white;
+            color: #4f46e5;
+            font-size: 27px;
+            box-shadow: 0 8px 25px rgba(79,70,229,.13);
+            margin-bottom: 17px;
         }
 
         .hero h1 {
-            font-size: 38px;
-            font-weight: 750;
-            margin-bottom: 10px;
+            margin: 0 0 8px;
+            font-size: 35px;
+            font-weight: 800;
+            letter-spacing: -.7px;
+        }
+
+        .hero h1 span {
+            color: #4f46e5;
         }
 
         .hero p {
+            max-width: 700px;
+            margin: 0;
             color: #64748b;
-            font-size: 17px;
-            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.7;
         }
 
-        .welcome-icon {
-            width: 62px;
-            height: 62px;
-            border-radius: 18px;
+        .hero-actions {
+            margin-top: 22px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            border-radius: 11px;
+            padding: 10px 17px;
+            font-weight: 650;
+        }
+
+        /* =========================================================
+           STAT CARDS
+        ========================================================= */
+
+        .stats-grid {
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            height: 100%;
+            padding: 20px;
+            background: white;
+            border: 1px solid #e4e9f2;
+            border-radius: 17px;
+            box-shadow: 0 6px 22px rgba(15,23,42,.045);
+            transition: .25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(15,23,42,.08);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: white;
-            color: #4f46e5;
-            font-size: 28px;
-            box-shadow: 0 8px 25px rgba(79,70,229,.12);
-            margin-bottom: 20px;
-        }
-
-        .action-btn {
             border-radius: 12px;
-            padding: 11px 19px;
+            font-size: 20px;
+        }
+
+        .stat-icon.active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .stat-icon.upcoming {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        .stat-icon.completed {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .stat-icon.total {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .stat-number {
+            margin-top: 16px;
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            margin-top: 2px;
+            color: #64748b;
+            font-size: 13px;
             font-weight: 600;
-            transition: .25s;
         }
 
-        .action-btn:hover {
-            transform: translateY(-2px);
-        }
+        /* =========================================================
+           TOOLBAR
+        ========================================================= */
 
-        .section-title {
-            margin-top: 38px;
-            margin-bottom: 18px;
-            font-weight: 700;
-        }
-
-        .info-card {
+        .toolbar {
+            padding: 17px;
+            margin-bottom: 30px;
             background: white;
-            border: 1px solid #e5eaf2;
-            border-radius: 18px;
-            padding: 23px;
-            height: 100%;
-            transition: .25s;
+            border: 1px solid #e3e8f0;
+            border-radius: 17px;
             box-shadow: 0 5px 20px rgba(15,23,42,.04);
         }
 
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(15,23,42,.09);
+        .search-box {
+            position: relative;
         }
 
-        .info-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .search-box input {
+            padding-left: 42px;
+            height: 44px;
+            border-radius: 11px;
+            border: 1px solid #dbe2ea;
+        }
+
+        .search-box input:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99,102,241,.10);
+        }
+
+        .filter-select {
+            height: 44px;
+            border-radius: 11px;
+            border: 1px solid #dbe2ea;
+            font-weight: 600;
+        }
+
+        .refresh-btn {
+            height: 44px;
+            border-radius: 11px;
+            font-weight: 650;
+        }
+
+        /* =========================================================
+           SECTION
+        ========================================================= */
+
+        .election-section {
+            margin-bottom: 38px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 17px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin: 0;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 12px;
             background: #eef2ff;
             color: #4f46e5;
-            font-size: 21px;
-            margin-bottom: 15px;
         }
 
-        .info-card h5 {
-            font-weight: 700;
-            margin-bottom: 7px;
+        .section-count {
+            padding: 6px 11px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-size: 12px;
+            font-weight: 750;
         }
 
-        .info-card p {
-            color: #64748b;
-            font-size: 14px;
+        /* =========================================================
+           ELECTION CARD
+        ========================================================= */
+
+        .election-card {
+            height: 100%;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 19px;
+            background: white;
+            box-shadow: 0 7px 24px rgba(15,23,42,.05);
+            transition: .25s ease;
+        }
+
+        .election-card:hover {
+            transform: translateY(-5px);
+            border-color: #cdd6ff;
+            box-shadow: 0 18px 40px rgba(15,23,42,.10);
+        }
+
+        .card-strip {
+            height: 6px;
+            background: linear-gradient(
+                90deg,
+                #4f46e5,
+                #2563eb
+            );
+        }
+
+        .card-strip.upcoming {
+            background: linear-gradient(
+                90deg,
+                #f59e0b,
+                #f97316
+            );
+        }
+
+        .card-strip.completed {
+            background: linear-gradient(
+                90deg,
+                #64748b,
+                #94a3b8
+            );
+        }
+
+        .election-body {
+            padding: 23px;
+        }
+
+        .election-title {
             margin: 0;
+            font-size: 19px;
+            font-weight: 780;
+            line-height: 1.4;
         }
 
-        .footer {
-            margin-top: 50px;
-            padding: 25px 0;
+        .status-badge {
+            padding: 7px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .4px;
+            white-space: nowrap;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-upcoming {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        .status-completed {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .description {
+            min-height: 42px;
+            margin: 10px 0 16px;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        /* =========================================================
+           LIVE INDICATOR
+        ========================================================= */
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 14px;
+            padding: 7px 11px;
+            border-radius: 20px;
+            background: #f0fdf4;
+            color: #15803d;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34,197,94,.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 7px rgba(34,197,94,0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(34,197,94,0);
+            }
+        }
+
+        /* =========================================================
+           COUNTDOWN
+        ========================================================= */
+
+        .countdown-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 13px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #edf1f5;
+        }
+
+        .countdown-box i {
+            color: #4f46e5;
+            font-size: 18px;
+        }
+
+        .countdown-label {
+            color: #94a3b8;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            font-weight: 750;
+        }
+
+        .countdown-value {
+            color: #334155;
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        /* =========================================================
+           INFO ROW
+        ========================================================= */
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 9px;
+            padding: 10px 11px;
+            border-radius: 11px;
+            background: #f8fafc;
+        }
+
+        .info-icon {
+            width: 33px;
+            height: 33px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .info-label {
+            display: block;
+            color: #94a3b8;
+            font-size: 9px;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .info-value {
+            display: block;
+            margin-top: 1px;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        /* =========================================================
+           BUTTON
+        ========================================================= */
+
+        .election-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 11px 15px;
+            border-radius: 11px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .election-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            padding: 38px 20px;
+            text-align: center;
+            border: 1px dashed #cbd5e1;
+            border-radius: 17px;
+            background: white;
+        }
+
+        .empty-icon {
+            width: 55px;
+            height: 55px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 13px;
+            border-radius: 16px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 23px;
+        }
+
+        .empty-state h6 {
+            margin-bottom: 5px;
+            font-weight: 750;
+        }
+
+        .empty-state p {
+            margin: 0;
             color: #94a3b8;
             font-size: 13px;
-            text-align: center;
         }
 
-        @media(max-width: 576px) {
+        /* =========================================================
+           LOADING
+        ========================================================= */
+
+        .loading-card {
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5eaf2;
+            border-radius: 18px;
+            background: white;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer {
+            margin-top: 48px;
+            padding: 24px 0 8px;
+            border-top: 1px solid #e5eaf2;
+            color: #94a3b8;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           TOAST
+        ========================================================= */
+
+        .toast-container {
+            z-index: 9999;
+        }
+
+        .custom-toast {
+            border: 0;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(15,23,42,.16);
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 768px) {
+
+            .brand {
+                font-size: 16px;
+            }
+
+            .brand-icon {
+                width: 39px;
+                height: 39px;
+                font-size: 19px;
+            }
+
+            .nav-btn .btn-text {
+                display: none;
+            }
+
+            .profile-name {
+                display: none;
+            }
+
+            .profile-btn {
+                min-width: 48px;
+                padding: 7px 10px;
+            }
 
             .hero {
-                padding: 25px;
                 margin-top: 20px;
+                padding: 27px;
+                border-radius: 21px;
             }
 
             .hero h1 {
                 font-size: 29px;
             }
 
-            .brand {
-                font-size: 17px;
+            .hero p {
+                font-size: 14px;
             }
 
-            .profile-btn {
-                width: 40px;
-                height: 40px;
+            .section-title {
+                font-size: 19px;
             }
 
-            .profile-menu {
-                min-width: 260px;
-            }
         }
+
+        @media (max-width: 576px) {
+
+            .main-container {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .nav-actions {
+                gap: 4px;
+            }
+
+            .hero {
+                padding: 23px;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+            .section-header {
+                align-items: flex-start;
+            }
+
+            .election-body {
+                padding: 19px;
+            }
+
+            .toolbar {
+                padding: 13px;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
 <nav class="navbar topbar">
 
-    <div class="container d-flex justify-content-between align-items-center">
+    <div class="container">
 
-        <!-- BRAND -->
+        <div class="d-flex justify-content-between align-items-center w-100">
 
-        <a href="/student/dashboard" class="brand">
-            <span class="brand-icon">
-                <i class="bi bi-check2-square"></i>
-            </span>
+            <!-- BRAND -->
 
-            Student Council Voting
-        </a>
+            <a
+                class="brand"
+                href="/student/dashboard">
 
-
-        <!-- RIGHT NAV -->
-
-        <div class="d-flex align-items-center gap-2">
-
-            <!-- NOTIFICATIONS -->
-
-            <a href="/student/notifications"
-               class="btn nav-btn">
-
-                <i class="bi bi-bell"></i>
-
-                Notifications
-
-                <span id="unreadBadge"
-                      class="badge bg-danger rounded-pill d-none"
-                      style="margin-left:4px;">
-                    0
+                <span class="brand-icon">
+                    <i class="bi bi-check2-square"></i>
                 </span>
+
+                Student Council Voting
 
             </a>
 
 
-            <!-- PROFILE -->
+            <!-- NAV ACTIONS -->
 
-            <div class="dropdown profile-wrapper">
+            <div class="nav-actions">
 
-                <button
-                    class="profile-btn"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    title="Profile">
+                <!-- DASHBOARD -->
 
-                    <img id="profileImage"
-                         src=""
-                         alt="Profile"
-                         class="d-none">
+                <a
+                    href="/student/dashboard"
+                    class="btn nav-btn btn-sm">
 
-                    <span id="profileDefault"
-                          class="profile-default">
+                    <i class="bi bi-house me-md-1"></i>
 
-                        <i class="bi bi-person-fill"></i>
+                    <span class="btn-text">
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <!-- NOTIFICATIONS -->
+
+                <a
+                    href="/student/notifications"
+                    class="btn nav-btn btn-sm position-relative">
+
+                    <i class="bi bi-bell me-md-1"></i>
+
+                    <span class="btn-text">
+                        Notifications
+                    </span>
+
+                    <span
+                        id="notificationBadge"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        style="display:none;">
+
+                        0
 
                     </span>
 
-                </button>
+                </a>
 
 
-                <!-- PROFILE DROPDOWN -->
+                <!-- PROFILE -->
 
-                <ul class="dropdown-menu dropdown-menu-end profile-menu">
+                <div class="dropdown">
 
-                    <!-- PROFILE HEADER -->
+                    <button
+                        class="btn nav-btn profile-btn dropdown-toggle"
+                        type="button"
+                        id="profileDropdown"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
 
-                    <li>
+                        <span
+                            class="profile-avatar"
+                            id="navProfileAvatar">
 
-                        <div class="profile-header">
+                            <i class="bi bi-person"></i>
 
-                            <div class="d-flex align-items-center gap-2">
+                        </span>
 
-                                <div class="profile-btn"
-                                     style="width:42px;height:42px;flex-shrink:0;">
+                        <span
+                            id="navProfileName"
+                            class="profile-name">
 
-                                    <img id="menuProfileImage"
-                                         src=""
-                                         alt="Profile"
-                                         class="d-none">
+                            Student
 
-                                    <span id="menuProfileDefault"
-                                          class="profile-default">
+                        </span>
 
-                                        <i class="bi bi-person-fill"></i>
+                    </button>
 
-                                    </span>
+
+                    <ul
+                        class="dropdown-menu dropdown-menu-end profile-menu"
+                        aria-labelledby="profileDropdown">
+
+
+                        <!-- PROFILE HEADER -->
+
+                        <li class="profile-menu-header">
+
+                            <div
+                                class="profile-menu-avatar"
+                                id="dropdownProfileAvatar">
+
+                                <i class="bi bi-person"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <div
+                                    id="dropdownProfileName"
+                                    class="profile-menu-name">
+
+                                    Student
 
                                 </div>
 
-                                <div>
+                                <div
+                                    id="dropdownProfileEmail"
+                                    class="profile-menu-email">
 
-                                    <div class="profile-header-name"
-                                         id="menuStudentName">
-
-                                        Student
-
-                                    </div>
-
-                                    <div class="profile-email"
-                                         id="menuStudentEmail">
-
-                                        Loading email...
-
-                                    </div>
+                                    Loading...
 
                                 </div>
 
                             </div>
 
-                        </div>
-
-                    </li>
+                        </li>
 
 
-                    <!-- EDIT PROFILE -->
-
-                    <li>
-
-                        <a class="dropdown-item profile-item"
-                           href="/student/profile">
-
-                            <i class="bi bi-person-gear me-2"></i>
-
-                            Edit Profile
-
-                        </a>
-
-                    </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
 
-                    <!-- EMAIL -->
+                        <!-- PROFILE -->
 
-                    <li>
+                        <li>
 
-                        <div class="dropdown-item profile-item text-muted"
-                             style="cursor:default;">
+                            <a
+                                class="dropdown-item"
+                                href="/student/profile">
 
-                            <i class="bi bi-envelope me-2"></i>
+                                <i class="bi bi-person-circle"></i>
 
-                            <span id="registeredEmail">
-                                Email
-                            </span>
+                                My Profile
 
-                        </div>
+                            </a>
 
-                    </li>
-
-
-                    <!-- DIVIDER -->
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                        </li>
 
 
-                    <!-- CHANGE PASSWORD -->
+                        <!-- CHANGE PASSWORD -->
 
-                    <li>
+                        <li>
 
-                        <a class="dropdown-item profile-item"
-                           href="/student/change-password">
+                            <a
+                                class="dropdown-item"
+                                href="/student/change-password">
 
-                            <i class="bi bi-shield-lock me-2"></i>
+                                <i class="bi bi-shield-lock"></i>
 
-                            Change Password
+                                Change Password
 
-                        </a>
+                            </a>
 
-                    </li>
+                        </li>
 
 
-                    <!-- LOGOUT -->
+                        <!-- PROFILE PICTURE -->
 
-                    <li>
+                        <li>
 
-                        <button
-                            class="dropdown-item profile-item logout-item"
-                            onclick="logout()">
+                            <a
+                                class="dropdown-item"
+                                href="/student/profile">
 
-                            <i class="bi bi-box-arrow-right me-2"></i>
+                                <i class="bi bi-image"></i>
 
-                            Logout
+                                Change Profile Picture
 
-                        </button>
+                            </a>
 
-                    </li>
+                        </li>
 
-                </ul>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+
+                        <!-- LOGOUT -->
+
+                        <li>
+
+                            <button
+                                class="dropdown-item logout-item"
+                                onclick="logout()">
+
+                                <i class="bi bi-box-arrow-right"></i>
+
+                                Logout
+
+                            </button>
+
+                        </li>
+
+                    </ul>
+
+                </div>
 
             </div>
 
@@ -483,276 +1113,2256 @@
 </nav>
 
 
-<main class="container">
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="container main-container">
 
 
-    <!-- HERO -->
+    <!-- =====================================================
+         HERO
+    ===================================================== -->
 
     <section class="hero">
 
-        <div class="welcome-icon">
+        <div class="hero-content">
 
-            <i class="bi bi-person-check"></i>
+            <div class="hero-icon">
 
-        </div>
+                <i class="bi bi-ballot2"></i>
 
+            </div>
 
-        <h1>
+            <h1>
+                Welcome,
+                <span id="heroStudentName">
+                    Student
+                </span>
+                👋
+            </h1>
 
-            Welcome,
-
-            <span id="studentName">
-                Student
-            </span>
-
-            👋
-
-        </h1>
-
-
-        <p>
-
-            Your voice matters.
-            Participate in your college elections
-            and make your choice count.
-
-        </p>
+            <p>
+                Explore your college elections, check active
+                voting opportunities, review upcoming elections
+                and make your voice count.
+            </p>
 
 
-        <div>
+            <div class="hero-actions">
 
-            <a href="/student/elections"
-               class="btn btn-primary action-btn">
+                <a
+                    href="#activeSection"
+                    class="btn btn-primary hero-btn">
 
-                <i class="bi bi-ballot2 me-1"></i>
+                    <i class="bi bi-lightning-charge me-2"></i>
 
-                View Elections
+                    Vote Now
 
-            </a>
+                </a>
+
+
+                <a
+                    href="/student/notifications"
+                    class="btn btn-outline-primary hero-btn">
+
+                    <i class="bi bi-bell me-2"></i>
+
+                    Notifications
+
+                </a>
+
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- INFORMATION -->
 
-    <h3 class="section-title">
+    <!-- =====================================================
+         STATISTICS
+    ===================================================== -->
+
+    <section class="stats-grid">
+
+        <div class="row g-3">
+
+
+            <!-- ACTIVE -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon active">
+
+                            <i class="bi bi-broadcast"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="activeStat"
+                        class="stat-number">
+
+                        0
+
+                    </div>
+
+                    <div class="stat-label">
+
+                        Active Elections
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- UPCOMING -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon upcoming">
+
+                            <i class="bi bi-calendar-event"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="upcomingStat"
+                        class="stat-number">
+
+                        0
+
+                    </div>
+
+                    <div class="stat-label">
+
+                        Upcoming Elections
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETED -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon completed">
+
+                            <i class="bi bi-check-circle"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="completedStat"
+                        class="stat-number">
+
+                        0
+
+                    </div>
+
+                    <div class="stat-label">
+
+                        Completed Elections
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon total">
+
+                            <i class="bi bi-collection"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="totalStat"
+                        class="stat-number">
+
+                        0
+
+                    </div>
+
+                    <div class="stat-label">
+
+                        Total Elections
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SEARCH / FILTER
+    ===================================================== -->
+
+    <section class="toolbar">
+
+        <div class="row g-2 align-items-center">
+
+
+            <!-- SEARCH -->
+
+            <div class="col-lg-6">
+
+                <div class="search-box">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="form-control"
+                        placeholder="Search elections...">
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTER -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <select
+                    id="statusFilter"
+                    class="form-select filter-select">
+
+                    <option value="ALL">
+                        All Elections
+                    </option>
+
+                    <option value="ACTIVE">
+                        Active
+                    </option>
+
+                    <option value="UPCOMING">
+                        Upcoming
+                    </option>
+
+                    <option value="COMPLETED">
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- REFRESH -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <button
+                    id="refreshBtn"
+                    class="btn btn-outline-primary refresh-btn w-100">
+
+                    <i class="bi bi-arrow-clockwise me-1"></i>
+
+                    Refresh Elections
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ACTIVE ELECTIONS
+    ===================================================== -->
+
+    <section
+        id="activeSection"
+        class="election-section">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+
+                <span class="section-icon">
+
+                    <i class="bi bi-broadcast"></i>
+
+                </span>
+
+                Active Elections
+
+            </h2>
+
+            <span
+                id="activeCount"
+                class="section-count">
+
+                0
+
+            </span>
+
+        </div>
+
+
+        <div
+            id="activeList"
+            class="row g-4">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         UPCOMING ELECTIONS
+    ===================================================== -->
+
+    <section class="election-section">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+
+                <span class="section-icon">
+
+                    <i class="bi bi-calendar-event"></i>
+
+                </span>
+
+                Upcoming Elections
+
+            </h2>
+
+            <span
+                id="upcomingCount"
+                class="section-count">
+
+                0
+
+            </span>
+
+        </div>
+
+
+        <div
+            id="upcomingList"
+            class="row g-4">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         COMPLETED ELECTIONS
+    ===================================================== -->
+
+    <section class="election-section">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+
+                <span class="section-icon">
+
+                    <i class="bi bi-check-circle"></i>
+
+                </span>
+
+                Completed Elections
+
+            </h2>
+
+            <span
+                id="completedCount"
+                class="section-count">
+
+                0
+
+            </span>
+
+        </div>
+
+
+        <div
+            id="completedList"
+            class="row g-4">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+
+    <footer class="footer">
+
+        <i class="bi bi-shield-check me-1"></i>
+
+        Secure College Voting System
+
+        <span class="mx-1">·</span>
+
         Student Portal
-    </h3>
 
+        <span class="mx-1">·</span>
 
-    <div class="row g-4">
+        2026
 
+    </footer>
 
-        <!-- ELECTION -->
-
-        <div class="col-md-4">
-
-            <div class="info-card">
-
-                <div class="info-icon">
-
-                    <i class="bi bi-ballot"></i>
-
-                </div>
-
-                <h5>
-                    Make Your Vote Count
-                </h5>
-
-                <p>
-
-                    Participate in active college elections
-                    and choose the candidates you believe in.
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- NOTIFICATIONS -->
-
-        <div class="col-md-4">
-
-            <div class="info-card">
-
-                <div class="info-icon">
-
-                    <i class="bi bi-megaphone"></i>
-
-                </div>
-
-                <h5>
-                    Stay Updated
-                </h5>
-
-                <p>
-
-                    Receive important announcements
-                    and notifications about college elections.
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- SECURITY -->
-
-        <div class="col-md-4">
-
-            <div class="info-card">
-
-                <div class="info-icon">
-
-                    <i class="bi bi-shield-check"></i>
-
-                </div>
-
-                <h5>
-                    Secure Voting
-                </h5>
-
-                <p>
-
-                    Your vote is securely recorded
-                    and you can vote only once for each position.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- FOOTER -->
-
-    <div class="footer">
-
-        © 2026 College Voting System · Student Portal
-
-    </div>
 
 </main>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast-container position-fixed bottom-0 end-0 p-3">
+
+    <div
+        id="mainToast"
+        class="toast custom-toast"
+        role="alert">
+
+        <div class="toast-body d-flex align-items-center">
+
+            <i
+                id="toastIcon"
+                class="bi bi-check-circle-fill text-success me-2">
+            </i>
+
+            <span id="toastMessage">
+                Updated successfully.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- AUTH -->
 
 <script src="/js/auth.js"></script>
 
 
+<!-- BOOTSTRAP -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
 <script>
 
-requireAuth('ROLE_STUDENT');
+    /* =========================================================
+       AUTHENTICATION
+    ========================================================= */
+
+    requireAuth('ROLE_STUDENT');
 
 
-// STUDENT NAME
+    /* =========================================================
+       GLOBAL DATA
+    ========================================================= */
 
-const fullName =
-    localStorage.getItem('fullName') || 'Student';
+    let activeElections = [];
 
-document.getElementById('studentName').textContent =
-    fullName;
+    let upcomingElections = [];
 
-document.getElementById('menuStudentName').textContent =
-    fullName;
+    let completedElections = [];
 
+    let allElections = [];
 
-// EMAIL
-
-const email =
-    localStorage.getItem('email') ||
-    localStorage.getItem('registeredEmail') ||
-    'Registered student';
-
-document.getElementById('menuStudentEmail').textContent =
-    email;
-
-document.getElementById('registeredEmail').textContent =
-    email;
+    let countdownTimer = null;
 
 
-// PROFILE IMAGE
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
 
-const savedProfileImage =
-    localStorage.getItem('profileImage');
+    function escapeHtml(value) {
 
-if (savedProfileImage) {
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return '';
+        }
 
-    document.getElementById('profileImage').src =
-        savedProfileImage;
-
-    document.getElementById('profileImage')
-        .classList.remove('d-none');
-
-    document.getElementById('profileDefault')
-        .classList.add('d-none');
-
-
-    document.getElementById('menuProfileImage').src =
-        savedProfileImage;
-
-    document.getElementById('menuProfileImage')
-        .classList.remove('d-none');
-
-    document.getElementById('menuProfileDefault')
-        .classList.add('d-none');
-}
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
 
 
-// NOTIFICATION COUNT
+    /* =========================================================
+       PROFILE AVATAR
+    ========================================================= */
 
-async function loadUnreadCount() {
+    function updateProfileAvatar(
+        elementId,
+        image
+    ) {
 
-    try {
+        const element =
+            document.getElementById(elementId);
 
-        const res =
-            await authFetch(
-                '/api/student/notifications/unread-count'
-            );
+        if (!element) {
+            return;
+        }
 
-        if (!res) return;
+        if (image) {
 
-        const data =
-            await res.json();
-
-        const badge =
-            document.getElementById('unreadBadge');
-
-        if (data.count > 0) {
-
-            badge.textContent =
-                data.count;
-
-            badge.classList.remove('d-none');
+            element.innerHTML =
+                '<img src="' +
+                escapeHtml(image) +
+                '" alt="Profile Picture">';
 
         } else {
 
-            badge.classList.add('d-none');
+            element.innerHTML =
+                '<i class="bi bi-person"></i>';
 
         }
 
-    } catch (error) {
+    }
 
-        console.error(
-            'Unable to load notification count:',
-            error
+
+    /* =========================================================
+       LOAD STUDENT PROFILE
+    ========================================================= */
+
+    async function loadStudentProfile() {
+
+        try {
+
+            const res =
+                await authFetch('/api/student/profile');
+
+            if (!res) {
+                return;
+            }
+
+            if (!res.ok) {
+
+                throw new Error(
+                    'Unable to load student profile'
+                );
+
+            }
+
+            const data =
+                await res.json();
+
+            const fullName =
+                data.fullName || 'Student';
+
+            const email =
+                data.email || '';
+
+            const profileImage =
+                data.profileImage || null;
+
+
+            /* NAV NAME */
+
+            const navName =
+                document.getElementById(
+                    'navProfileName'
+                );
+
+            if (navName) {
+                navName.textContent = fullName;
+            }
+
+
+            /* HERO NAME */
+
+            const heroName =
+                document.getElementById(
+                    'heroStudentName'
+                );
+
+            if (heroName) {
+                heroName.textContent = fullName;
+            }
+
+
+            /* DROPDOWN */
+
+            const dropdownName =
+                document.getElementById(
+                    'dropdownProfileName'
+                );
+
+            if (dropdownName) {
+                dropdownName.textContent = fullName;
+            }
+
+
+            const dropdownEmail =
+                document.getElementById(
+                    'dropdownProfileEmail'
+                );
+
+            if (dropdownEmail) {
+                dropdownEmail.textContent =
+                    email || 'Student Account';
+            }
+
+
+            /* AVATARS */
+
+            updateProfileAvatar(
+                'navProfileAvatar',
+                profileImage
+            );
+
+            updateProfileAvatar(
+                'dropdownProfileAvatar',
+                profileImage
+            );
+
+
+            /* LOCAL STORAGE */
+
+            localStorage.setItem(
+                'fullName',
+                fullName
+            );
+
+            localStorage.setItem(
+                'email',
+                email
+            );
+
+            if (profileImage) {
+
+                localStorage.setItem(
+                    'profileImage',
+                    profileImage
+                );
+
+            } else {
+
+                localStorage.removeItem(
+                    'profileImage'
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                'Profile loading error:',
+                error
+            );
+
+
+            /* FALLBACK */
+
+            const storedName =
+                localStorage.getItem('fullName');
+
+            const storedEmail =
+                localStorage.getItem('email');
+
+            const storedImage =
+                localStorage.getItem('profileImage');
+
+
+            if (storedName) {
+
+                const navName =
+                    document.getElementById(
+                        'navProfileName'
+                    );
+
+                if (navName) {
+                    navName.textContent =
+                        storedName;
+                }
+
+
+                const heroName =
+                    document.getElementById(
+                        'heroStudentName'
+                    );
+
+                if (heroName) {
+                    heroName.textContent =
+                        storedName;
+                }
+
+
+                const dropdownName =
+                    document.getElementById(
+                        'dropdownProfileName'
+                    );
+
+                if (dropdownName) {
+                    dropdownName.textContent =
+                        storedName;
+                }
+
+            }
+
+
+            if (storedEmail) {
+
+                const dropdownEmail =
+                    document.getElementById(
+                        'dropdownProfileEmail'
+                    );
+
+                if (dropdownEmail) {
+                    dropdownEmail.textContent =
+                        storedEmail;
+                }
+
+            }
+
+
+            if (storedImage) {
+
+                updateProfileAvatar(
+                    'navProfileAvatar',
+                    storedImage
+                );
+
+                updateProfileAvatar(
+                    'dropdownProfileAvatar',
+                    storedImage
+                );
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================================================
+       NOTIFICATIONS
+    ========================================================= */
+
+    async function loadNotificationCount() {
+
+        try {
+
+            const res =
+                await authFetch(
+                    '/api/student/notifications/unread-count'
+                );
+
+            if (!res || !res.ok) {
+                return;
+            }
+
+            const data =
+                await res.json();
+
+            let count = 0;
+
+            if (typeof data === 'number') {
+                count = data;
+            } else if (
+                data &&
+                typeof data.count === 'number'
+            ) {
+                count = data.count;
+            } else if (
+                data &&
+                typeof data.unreadCount === 'number'
+            ) {
+                count = data.unreadCount;
+            }
+
+            const badge =
+                document.getElementById(
+                    'notificationBadge'
+                );
+
+            if (!badge) {
+                return;
+            }
+
+            if (count > 0) {
+
+                badge.textContent =
+                    count > 99
+                        ? '99+'
+                        : count;
+
+                badge.style.display =
+                    'block';
+
+            } else {
+
+                badge.style.display =
+                    'none';
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                'Notification count error:',
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       DATE FORMAT
+    ========================================================= */
+
+    function formatDate(dateValue) {
+
+        if (!dateValue) {
+            return 'Not available';
+        }
+
+        const date =
+            new Date(dateValue);
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+            return 'Not available';
+        }
+
+        return date.toLocaleString(
+            undefined,
+            {
+                dateStyle: 'medium',
+                timeStyle: 'short'
+            }
         );
 
     }
 
-}
+
+    /* =========================================================
+       COUNTDOWN
+    ========================================================= */
+
+    function getCountdown(
+        targetDate,
+        mode
+    ) {
+
+        if (!targetDate) {
+            return 'Not available';
+        }
+
+        const target =
+            new Date(targetDate).getTime();
+
+        const now =
+            Date.now();
+
+        let difference;
+
+        if (mode === 'START') {
+
+            difference =
+                target - now;
+
+        } else {
+
+            difference =
+                target - now;
+
+        }
 
 
-loadUnreadCount();
+        if (difference <= 0) {
+
+            if (mode === 'START') {
+                return 'Starting soon';
+            }
+
+            return 'Ending soon';
+
+        }
+
+
+        const totalSeconds =
+            Math.floor(
+                difference / 1000
+            );
+
+        const days =
+            Math.floor(
+                totalSeconds / 86400
+            );
+
+        const hours =
+            Math.floor(
+                (totalSeconds % 86400) / 3600
+            );
+
+        const minutes =
+            Math.floor(
+                (totalSeconds % 3600) / 60
+            );
+
+        const seconds =
+            totalSeconds % 60;
+
+
+        if (days > 0) {
+
+            return (
+                days +
+                'd ' +
+                hours +
+                'h ' +
+                minutes +
+                'm'
+            );
+
+        }
+
+        if (hours > 0) {
+
+            return (
+                hours +
+                'h ' +
+                minutes +
+                'm ' +
+                seconds +
+                's'
+            );
+
+        }
+
+        return (
+            minutes +
+            'm ' +
+            seconds +
+            's'
+        );
+
+    }
+
+
+    /* =========================================================
+       STATUS CLASS
+    ========================================================= */
+
+    function getStatusClass(status) {
+
+        if (status === 'ACTIVE') {
+            return 'status-active';
+        }
+
+        if (status === 'COMPLETED') {
+            return 'status-completed';
+        }
+
+        return 'status-upcoming';
+
+    }
+
+
+    /* =========================================================
+       STRIP CLASS
+    ========================================================= */
+
+    function getStripClass(status) {
+
+        if (status === 'COMPLETED') {
+            return 'completed';
+        }
+
+        if (status === 'UPCOMING') {
+            return 'upcoming';
+        }
+
+        return '';
+
+    }
+
+
+    /* =========================================================
+       DEPARTMENT
+    ========================================================= */
+
+    function getDepartment(
+        election
+    ) {
+
+        if (
+            election.department &&
+            String(election.department).trim()
+        ) {
+
+            const value =
+                String(
+                    election.department
+                ).trim();
+
+            if (
+                value.toUpperCase() === 'ALL' ||
+                value.toUpperCase() ===
+                    'ALL DEPARTMENTS'
+            ) {
+
+                return 'All Departments';
+
+            }
+
+            return value;
+
+        }
+
+        return 'All Departments';
+
+    }
+
+
+    /* =========================================================
+       BUTTON
+    ========================================================= */
+
+    function getButton(
+        election
+    ) {
+
+        const status =
+            election.status;
+
+
+        if (status === 'ACTIVE') {
+
+            return `
+
+                <a
+                    href="/student/election-details?id=${encodeURIComponent(election.id)}"
+                    class="btn btn-primary election-btn">
+
+                    <i class="bi bi-ballot2 me-2"></i>
+
+                    Vote Now
+
+                    <i class="bi bi-arrow-right ms-1"></i>
+
+                </a>
+
+            `;
+
+        }
+
+
+        if (status === 'COMPLETED') {
+
+            return `
+
+                <a
+                    href="/student/election-details?id=${encodeURIComponent(election.id)}"
+                    class="btn btn-outline-secondary election-btn">
+
+                    <i class="bi bi-bar-chart me-2"></i>
+
+                    View Results
+
+                    <i class="bi bi-arrow-right ms-1"></i>
+
+                </a>
+
+            `;
+
+        }
+
+
+        return `
+
+            <a
+                href="/student/election-details?id=${encodeURIComponent(election.id)}"
+                class="btn btn-outline-primary election-btn">
+
+                <i class="bi bi-eye me-2"></i>
+
+                View Details
+
+                <i class="bi bi-arrow-right ms-1"></i>
+
+            </a>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       RENDER ELECTION CARD
+    ========================================================= */
+
+    function renderCard(
+        election
+    ) {
+
+        const status =
+            election.status || 'UPCOMING';
+
+        const description =
+            election.description ||
+            'No description available for this election.';
+
+        const department =
+            getDepartment(election);
+
+
+        let countdownHtml = '';
+
+
+        if (status === 'ACTIVE') {
+
+            countdownHtml = `
+
+                <div class="live-indicator">
+
+                    <span class="live-dot"></span>
+
+                    LIVE NOW · Voting is open
+
+                </div>
+
+                <div class="countdown-box">
+
+                    <i class="bi bi-hourglass-split"></i>
+
+                    <div>
+
+                        <span class="countdown-label">
+                            Voting closes in
+                        </span>
+
+                        <span
+                            class="countdown-value election-countdown"
+                            data-end="${escapeHtml(election.endDateTime)}">
+
+                            ${getCountdown(
+                                election.endDateTime,
+                                'END'
+                            )}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        if (status === 'UPCOMING') {
+
+            countdownHtml = `
+
+                <div class="countdown-box">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    <div>
+
+                        <span class="countdown-label">
+                            Election starts in
+                        </span>
+
+                        <span
+                            class="countdown-value election-countdown"
+                            data-start="${escapeHtml(election.startDateTime)}">
+
+                            ${getCountdown(
+                                election.startDateTime,
+                                'START'
+                            )}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        return `
+
+            <div
+                class="col-xl-4 col-lg-6 election-item"
+                data-name="${escapeHtml(
+                    election.name
+                )}"
+                data-status="${escapeHtml(
+                    status
+                )}">
+
+                <div class="election-card">
+
+                    <div
+                        class="card-strip ${getStripClass(status)}">
+                    </div>
+
+
+                    <div class="election-body">
+
+
+                        <div
+                            class="d-flex justify-content-between align-items-start gap-3">
+
+                            <h3 class="election-title">
+
+                                ${escapeHtml(
+                                    election.name
+                                )}
+
+                            </h3>
+
+
+                            <span
+                                class="status-badge ${getStatusClass(status)}">
+
+                                ${escapeHtml(
+                                    status
+                                )}
+
+                            </span>
+
+                        </div>
+
+
+                        <p class="description">
+
+                            ${escapeHtml(
+                                description
+                            )}
+
+                        </p>
+
+
+                        ${countdownHtml}
+
+
+                        <!-- DEPARTMENT -->
+
+                        <div class="info-row">
+
+                            <div class="info-icon">
+
+                                <i class="bi bi-building"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Department
+                                </span>
+
+                                <span class="info-value">
+
+                                    ${escapeHtml(
+                                        department
+                                    )}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- START -->
+
+                        <div class="info-row">
+
+                            <div class="info-icon">
+
+                                <i class="bi bi-calendar-plus"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Starts
+                                </span>
+
+                                <span class="info-value">
+
+                                    ${formatDate(
+                                        election.startDateTime
+                                    )}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- END -->
+
+                        <div class="info-row">
+
+                            <div class="info-icon">
+
+                                <i class="bi bi-calendar-x"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Ends
+                                </span>
+
+                                <span class="info-value">
+
+                                    ${formatDate(
+                                        election.endDateTime
+                                    )}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BUTTON -->
+
+                        ${getButton(
+                            election
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       EMPTY STATE
+    ========================================================= */
+
+    function renderEmpty(
+        message,
+        icon = 'bi-calendar2-x'
+    ) {
+
+        return `
+
+            <div class="col-12">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi ${icon}"></i>
+
+                    </div>
+
+                    <h6>
+                        No Elections Available
+                    </h6>
+
+                    <p>
+                        ${escapeHtml(message)}
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
+
+    function renderLoading() {
+
+        return `
+
+            <div class="col-12">
+
+                <div class="loading-card">
+
+                    <div
+                        class="spinner-border text-primary"
+                        role="status">
+
+                        <span class="visually-hidden">
+                            Loading...
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       LOAD SECTION
+    ========================================================= */
+
+    async function loadSection(
+        status,
+        elementId,
+        countId
+    ) {
+
+        const container =
+            document.getElementById(
+                elementId
+            );
+
+        const count =
+            document.getElementById(
+                countId
+            );
+
+
+        if (!container) {
+            return [];
+        }
+
+
+        container.innerHTML =
+            renderLoading();
+
+
+        try {
+
+            const res =
+                await authFetch(
+                    `/api/student/elections/${status}`
+                );
+
+
+            if (!res) {
+                return [];
+            }
+
+
+            if (!res.ok) {
+
+                throw new Error(
+                    `HTTP ${res.status}`
+                );
+
+            }
+
+
+            const elections =
+                await res.json();
+
+
+            const safeElections =
+                Array.isArray(elections)
+                    ? elections
+                    : [];
+
+
+            count.textContent =
+                safeElections.length;
+
+
+            if (
+                safeElections.length === 0
+            ) {
+
+                let message =
+                    'There are no elections available right now.';
+
+
+                if (status === 'active') {
+
+                    message =
+                        'There are no active elections at the moment.';
+
+                }
+
+
+                if (status === 'upcoming') {
+
+                    message =
+                        'No upcoming elections have been scheduled yet.';
+
+                }
+
+
+                if (status === 'completed') {
+
+                    message =
+                        'No completed elections are available.';
+
+                }
+
+
+                container.innerHTML =
+                    renderEmpty(message);
+
+                return safeElections;
+
+            }
+
+
+            container.innerHTML =
+                safeElections
+                    .map(renderCard)
+                    .join('');
+
+
+            return safeElections;
+
+        } catch (error) {
+
+            console.error(
+                `Failed to load ${status} elections:`,
+                error
+            );
+
+
+            count.textContent =
+                '0';
+
+
+            container.innerHTML = `
+
+                <div class="col-12">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-exclamation-triangle"></i>
+
+                        </div>
+
+                        <h6>
+                            Unable to Load Elections
+                        </h6>
+
+                        <p>
+                            Please refresh the page and try again.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            return [];
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOAD ALL ELECTIONS
+    ========================================================= */
+
+    async function loadAllElections() {
+
+        const [
+            active,
+            upcoming,
+            completed
+        ] = await Promise.all([
+
+            loadSection(
+                'active',
+                'activeList',
+                'activeCount'
+            ),
+
+            loadSection(
+                'upcoming',
+                'upcomingList',
+                'upcomingCount'
+            ),
+
+            loadSection(
+                'completed',
+                'completedList',
+                'completedCount'
+            )
+
+        ]);
+
+
+        activeElections =
+            Array.isArray(active)
+                ? active
+                : [];
+
+        upcomingElections =
+            Array.isArray(upcoming)
+                ? upcoming
+                : [];
+
+        completedElections =
+            Array.isArray(completed)
+                ? completed
+                : [];
+
+
+        allElections = [
+
+            ...activeElections,
+            ...upcomingElections,
+            ...completedElections
+
+        ];
+
+
+        updateStatistics();
+
+
+        applyFilters();
+
+
+        startCountdown();
+
+
+        document.getElementById(
+            'refreshBtn'
+        ).innerHTML = `
+
+            <i class="bi bi-check2 me-1"></i>
+
+            Updated
+
+        `;
+
+
+        setTimeout(() => {
+
+            document.getElementById(
+                'refreshBtn'
+            ).innerHTML = `
+
+                <i class="bi bi-arrow-clockwise me-1"></i>
+
+                Refresh Elections
+
+            `;
+
+        }, 1500);
+
+    }
+
+
+    /* =========================================================
+       STATISTICS
+    ========================================================= */
+
+    function updateStatistics() {
+
+        document.getElementById(
+            'activeStat'
+        ).textContent =
+            activeElections.length;
+
+
+        document.getElementById(
+            'upcomingStat'
+        ).textContent =
+            upcomingElections.length;
+
+
+        document.getElementById(
+            'completedStat'
+        ).textContent =
+            completedElections.length;
+
+
+        document.getElementById(
+            'totalStat'
+        ).textContent =
+            allElections.length;
+
+    }
+
+
+    /* =========================================================
+       SEARCH + FILTER
+    ========================================================= */
+
+    function applyFilters() {
+
+        const search =
+            document.getElementById(
+                'searchInput'
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const filter =
+            document.getElementById(
+                'statusFilter'
+            ).value;
+
+
+        const sections = [
+
+            {
+                listId: 'activeList',
+                data: activeElections,
+                status: 'ACTIVE'
+            },
+
+            {
+                listId: 'upcomingList',
+                data: upcomingElections,
+                status: 'UPCOMING'
+            },
+
+            {
+                listId: 'completedList',
+                data: completedElections,
+                status: 'COMPLETED'
+            }
+
+        ];
+
+
+        sections.forEach(section => {
+
+            const container =
+                document.getElementById(
+                    section.listId
+                );
+
+
+            let filtered =
+                section.data.filter(
+                    election => {
+
+                        const name =
+                            String(
+                                election.name || ''
+                            ).toLowerCase();
+
+                        const description =
+                            String(
+                                election.description || ''
+                            ).toLowerCase();
+
+                        const department =
+                            String(
+                                election.department || ''
+                            ).toLowerCase();
+
+
+                        const matchesSearch =
+                            !search ||
+                            name.includes(search) ||
+                            description.includes(search) ||
+                            department.includes(search);
+
+
+                        const matchesFilter =
+                            filter === 'ALL' ||
+                            filter === section.status;
+
+
+                        return (
+                            matchesSearch &&
+                            matchesFilter
+                        );
+
+                    }
+                );
+
+
+            if (
+                filtered.length === 0
+            ) {
+
+                let message =
+                    'No elections match your search.';
+
+
+                if (
+                    !search &&
+                    filter === 'ALL'
+                ) {
+
+                    message =
+                        'There are no elections available.';
+
+                }
+
+
+                container.innerHTML =
+                    renderEmpty(
+                        message,
+                        'bi-search'
+                    );
+
+            } else {
+
+                container.innerHTML =
+                    filtered
+                        .map(renderCard)
+                        .join('');
+
+            }
+
+        });
+
+
+        updateVisibleSectionHeaders();
+
+        startCountdown();
+
+    }
+
+
+    /* =========================================================
+       SECTION HEADER VISIBILITY
+    ========================================================= */
+
+    function updateVisibleSectionHeaders() {
+
+        const mappings = [
+
+            {
+                list: 'activeList',
+                section: 'activeSection'
+            },
+
+            {
+                list: 'upcomingList',
+                section: null
+            },
+
+            {
+                list: 'completedList',
+                section: null
+            }
+
+        ];
+
+
+        if (
+            document.getElementById(
+                'statusFilter'
+            ).value !== 'ALL'
+        ) {
+
+            const filter =
+                document.getElementById(
+                    'statusFilter'
+                ).value;
+
+
+            document
+                .querySelectorAll(
+                    '.election-section'
+                )
+                .forEach(
+                    section => {
+
+                        section.style.display =
+                            'block';
+
+                    }
+                );
+
+
+            if (filter === 'ACTIVE') {
+
+                hideSection(
+                    'upcomingList'
+                );
+
+                hideSection(
+                    'completedList'
+                );
+
+            }
+
+
+            if (filter === 'UPCOMING') {
+
+                hideSection(
+                    'activeList'
+                );
+
+                hideSection(
+                    'completedList'
+                );
+
+            }
+
+
+            if (filter === 'COMPLETED') {
+
+                hideSection(
+                    'activeList'
+                );
+
+                hideSection(
+                    'upcomingList'
+                );
+
+            }
+
+        } else {
+
+            document
+                .querySelectorAll(
+                    '.election-section'
+                )
+                .forEach(
+                    section => {
+
+                        section.style.display =
+                            'block';
+
+                    }
+                );
+
+        }
+
+    }
+
+
+    function hideSection(
+        listId
+    ) {
+
+        const list =
+            document.getElementById(
+                listId
+            );
+
+        if (!list) {
+            return;
+        }
+
+        const section =
+            list.closest(
+                '.election-section'
+            );
+
+        if (section) {
+
+            section.style.display =
+                'none';
+
+        }
+
+    }
+
+
+    /* =========================================================
+       COUNTDOWN TIMER
+    ========================================================= */
+
+    function startCountdown() {
+
+        if (countdownTimer) {
+
+            clearInterval(
+                countdownTimer
+            );
+
+        }
+
+
+        updateCountdowns();
+
+
+        countdownTimer =
+            setInterval(
+                updateCountdowns,
+                1000
+            );
+
+    }
+
+
+    function updateCountdowns() {
+
+        document
+            .querySelectorAll(
+                '.election-countdown'
+            )
+            .forEach(
+                element => {
+
+                    const start =
+                        element.dataset.start;
+
+                    const end =
+                        element.dataset.end;
+
+
+                    if (start) {
+
+                        element.textContent =
+                            getCountdown(
+                                start,
+                                'START'
+                            );
+
+                    }
+
+
+                    if (end) {
+
+                        element.textContent =
+                            getCountdown(
+                                end,
+                                'END'
+                            );
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    function showToast(
+        message,
+        type = 'success'
+    ) {
+
+        const toastElement =
+            document.getElementById(
+                'mainToast'
+            );
+
+        const icon =
+            document.getElementById(
+                'toastIcon'
+            );
+
+        const messageElement =
+            document.getElementById(
+                'toastMessage'
+            );
+
+
+        messageElement.textContent =
+            message;
+
+
+        icon.className =
+            type === 'success'
+                ? 'bi bi-check-circle-fill text-success me-2'
+                : 'bi bi-exclamation-circle-fill text-danger me-2';
+
+
+        const toast =
+            bootstrap.Toast.getOrCreateInstance(
+                toastElement,
+                {
+                    delay: 2500
+                }
+            );
+
+
+        toast.show();
+
+    }
+
+
+    /* =========================================================
+       REFRESH
+    ========================================================= */
+
+    document
+        .getElementById('refreshBtn')
+        .addEventListener(
+            'click',
+            async function () {
+
+                this.disabled = true;
+
+
+                this.innerHTML = `
+
+                    <span
+                        class="spinner-border spinner-border-sm me-2">
+                    </span>
+
+                    Refreshing...
+
+                `;
+
+
+                await loadAllElections();
+
+                await loadNotificationCount();
+
+
+                this.disabled = false;
+
+
+                showToast(
+                    'Elections refreshed successfully.'
+                );
+
+            }
+        );
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    document
+        .getElementById('searchInput')
+        .addEventListener(
+            'input',
+            applyFilters
+        );
+
+
+    /* =========================================================
+       FILTER
+    ========================================================= */
+
+    document
+        .getElementById('statusFilter')
+        .addEventListener(
+            'change',
+            applyFilters
+        );
+
+
+    /* =========================================================
+       INITIAL LOAD
+    ========================================================= */
+
+    async function initializeDashboard() {
+
+        await loadStudentProfile();
+
+        await loadNotificationCount();
+
+        await loadAllElections();
+
+    }
+
+
+    initializeDashboard();
+
+
+    /* =========================================================
+       AUTO REFRESH NOTIFICATION COUNT
+    ========================================================= */
+
+    setInterval(
+        loadNotificationCount,
+        60000
+    );
+
 
 </script>
 
+
 </body>
+
 </html>

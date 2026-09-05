@@ -2,9 +2,14 @@ package com.college.voting.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PageController {
+
+    // =========================
+    // GENERAL PAGES
+    // =========================
 
     @GetMapping("/")
     public String index() {
@@ -21,19 +26,24 @@ public class PageController {
         return "register";
     }
 
+    @GetMapping("/forgot-password")
+    public String forgotPassword() {
+        return "forgot-password";
+    }
+
+    @GetMapping("/reset-password")
+    public String resetPassword() {
+        return "reset-password";
+    }
+
+
+    // =========================
+    // STUDENT PAGES
+    // =========================
+
     @GetMapping("/student/dashboard")
     public String studentDashboard() {
         return "student/dashboard";
-    }
-
-    @GetMapping("/admin/dashboard")
-    public String adminDashboard() {
-        return "admin/dashboard";
-    }
-
-    @GetMapping("/admin/elections")
-    public String adminElections() {
-        return "admin/elections";
     }
 
     @GetMapping("/student/elections")
@@ -66,6 +76,44 @@ public class PageController {
         return "student/notifications";
     }
 
+    @GetMapping("/student/change-password")
+    public String studentChangePassword() {
+        return "student/change-password";
+    }
+
+    @GetMapping("/student/profile")
+    public String studentProfile() {
+        return "student/profile";
+    }
+
+
+    // =========================
+    // ADMIN PAGES
+    // =========================
+
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard() {
+        return "admin/dashboard";
+    }
+
+    @GetMapping("/admin/elections")
+    public String adminElections() {
+        return "admin/elections";
+    }
+
+    /*
+     * Admin Election Details Page
+     *
+     * Example:
+     * /admin/elections/25
+     *
+     * The {id} is the election ID.
+     */
+    @GetMapping("/admin/elections/{id}")
+    public String adminElectionDetails(@PathVariable Long id) {
+        return "admin/election-details";
+    }
+
     @GetMapping("/admin/results")
     public String adminResults() {
         return "admin/results";
@@ -76,33 +124,13 @@ public class PageController {
         return "admin/students";
     }
 
-    @GetMapping("/admin/audit-logs")
-    public String adminAuditLogs() {
-        return "admin/audit-logs";
-    }
-
     @GetMapping("/admin/candidates")
     public String adminCandidates() {
         return "admin/candidates";
     }
 
-    @GetMapping("/forgot-password")
-    public String forgotPassword() {
-        return "forgot-password";
+    @GetMapping("/admin/audit-logs")
+    public String adminAuditLogs() {
+        return "admin/audit-logs";
     }
-
-    @GetMapping("/reset-password")
-    public String resetPassword() {
-        return "reset-password";
-    }
-
-    @GetMapping("/student/change-password")
-    public String studentChangePassword() {
-        return "student/change-password";
-    }
-
-    @GetMapping("/student/profile")
-public String studentProfile() {
-    return "student/profile";
-}
 }

@@ -1,110 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Election Details | College Voting</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 
     <style>
-        body {
-            background: #f5f7fb;
-            font-family: "Segoe UI", Arial, sans-serif;
-            color: #172033;
+
+        * {
+            box-sizing: border-box;
         }
 
+        body {
+            margin: 0;
+            background: #f6f8fc;
+            color: #172033;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* =====================================
+           NAVBAR
+        ===================================== */
+
         .topbar {
-            background: linear-gradient(135deg,#4f46e5,#2563eb);
-            min-height: 72px;
-            box-shadow: 0 5px 20px rgba(37,99,235,.18);
+            min-height: 76px;
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #2563eb
+            );
+            box-shadow:
+                0 8px 25px rgba(37, 99, 235, .20);
         }
 
         .brand {
+            display: flex;
+            align-items: center;
             color: white;
             text-decoration: none;
-            font-weight: 700;
             font-size: 20px;
+            font-weight: 750;
+        }
+
+        .brand:hover {
+            color: white;
         }
 
         .brand-icon {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             display: inline-flex;
-            justify-content: center;
             align-items: center;
-            border-radius: 12px;
+            justify-content: center;
+            margin-right: 11px;
+            border-radius: 13px;
             background: rgba(255,255,255,.18);
-            margin-right: 10px;
+            border: 1px solid rgba(255,255,255,.25);
+            font-size: 22px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-btn {
             color: white;
-            border: 1px solid rgba(255,255,255,.55);
-            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,.45);
+            border-radius: 11px;
+            padding: 9px 14px;
+            font-weight: 600;
+            transition: .2s;
         }
 
         .nav-btn:hover {
-            background: white;
             color: #2563eb;
+            background: white;
         }
 
+        /* =====================================
+           MAIN
+        ===================================== */
+
+        .main-container {
+            max-width: 1180px;
+            margin: auto;
+            padding-bottom: 55px;
+        }
+
+        /* =====================================
+           BACK BUTTON
+        ===================================== */
+
+        .back-row {
+            margin-top: 25px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 650;
+        }
+
+        .back-btn:hover {
+            color: #4f46e5;
+        }
+
+        /* =====================================
+           ELECTION HERO
+        ===================================== */
+
         .election-header {
-            margin-top: 38px;
-            padding: 35px;
-            border-radius: 23px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 18px;
+            padding: 38px;
+            border-radius: 26px;
             color: white;
-            background: linear-gradient(135deg,#4338ca,#2563eb);
-            box-shadow: 0 15px 35px rgba(37,99,235,.18);
+            background:
+                linear-gradient(
+                    135deg,
+                    #4338ca,
+                    #2563eb
+                );
+            box-shadow:
+                0 18px 42px rgba(37,99,235,.20);
+        }
+
+        .election-header::before {
+            content: "";
+            position: absolute;
+            width: 290px;
+            height: 290px;
+            right: -90px;
+            top: -140px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.09);
+        }
+
+        .election-header::after {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            right: 170px;
+            bottom: -100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.06);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .election-icon {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            border-radius: 17px;
+            background: rgba(255,255,255,.16);
+            border: 1px solid rgba(255,255,255,.20);
+            font-size: 27px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            margin-bottom: 14px;
+            border-radius: 20px;
+            background: white;
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .3px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .status-dot.upcoming {
+            background: #f59e0b;
+        }
+
+        .status-dot.completed {
+            background: #64748b;
         }
 
         .election-header h1 {
-            font-weight: 750;
+            margin: 0 0 10px;
+            font-size: 37px;
+            font-weight: 800;
+            letter-spacing: -.6px;
         }
 
-        .election-header p {
-            opacity: .86;
+        .election-description {
+            max-width: 720px;
+            margin: 0;
+            color: rgba(255,255,255,.82);
+            font-size: 15px;
+            line-height: 1.7;
         }
+
+        /* =====================================
+           ELECTION INFO
+        ===================================== */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 17px;
+            border: 1px solid #e3e8f0;
+            border-radius: 16px;
+            background: white;
+            box-shadow:
+                0 5px 18px rgba(15,23,42,.04);
+        }
+
+        .info-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-size: 19px;
+        }
+
+        .info-label {
+            display: block;
+            margin-bottom: 2px;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .info-value {
+            display: block;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        /* =====================================
+           RESULTS
+        ===================================== */
+
+        .results-wrapper {
+            margin-top: 18px;
+        }
+
+        .results-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 11px 17px;
+            border-radius: 11px;
+            font-weight: 650;
+        }
+
+        /* =====================================
+           POSITION SECTION
+        ===================================== */
 
         .position-section {
-            margin-top: 35px;
+            margin-top: 38px;
         }
 
-        .position-title {
-            font-weight: 750;
+        .position-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
             margin-bottom: 17px;
         }
 
+        .position-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .position-icon {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-size: 20px;
+        }
+
+        .position-title {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 780;
+        }
+
+        .position-label {
+            margin-top: 2px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* =====================================
+           VOTE BUTTON
+        ===================================== */
+
+        .vote-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 11px 17px;
+            border-radius: 11px;
+            font-weight: 700;
+            box-shadow:
+                0 7px 18px rgba(37,99,235,.15);
+            transition: .2s;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 25px rgba(37,99,235,.22);
+        }
+
+        /* =====================================
+           ALREADY VOTED
+        ===================================== */
+
+        .voted-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 14px;
+            border-radius: 11px;
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+            color: #047857;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =====================================
+           CANDIDATE CARD
+        ===================================== */
+
         .candidate-card {
-            background: white;
-            border: 1px solid #e3e8f0;
-            border-radius: 18px;
-            overflow: hidden;
             height: 100%;
-            transition: .25s;
-            box-shadow: 0 5px 20px rgba(15,23,42,.04);
+            overflow: hidden;
+            border: 1px solid #e3e8f0;
+            border-radius: 19px;
+            background: white;
+            box-shadow:
+                0 6px 22px rgba(15,23,42,.045);
+            transition: .25s ease;
         }
 
         .candidate-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 18px 40px rgba(15,23,42,.10);
+            border-color: #d5dcff;
+            box-shadow:
+                0 18px 40px rgba(15,23,42,.10);
+        }
+
+        .candidate-image-wrapper {
+            position: relative;
+            height: 225px;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #dbeafe
+                );
         }
 
         .candidate-image {
             width: 100%;
-            height: 210px;
+            height: 100%;
             object-fit: cover;
-            background: #eef2ff;
+            transition: .3s;
+        }
+
+        .candidate-card:hover .candidate-image {
+            transform: scale(1.03);
         }
 
         .candidate-placeholder {
-            height: 210px;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg,#eef2ff,#dbeafe);
             color: #4f46e5;
             font-size: 65px;
         }
@@ -114,311 +445,1336 @@
         }
 
         .candidate-name {
-            font-size: 18px;
-            font-weight: 700;
+            margin-bottom: 5px;
+            color: #172033;
+            font-size: 19px;
+            font-weight: 750;
+        }
+
+        .candidate-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 13px;
+        }
+
+        .meta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 650;
         }
 
         .slogan {
+            min-height: 43px;
+            margin-bottom: 16px;
             color: #64748b;
+            font-size: 13px;
             font-style: italic;
-            font-size: 14px;
-            min-height: 40px;
+            line-height: 1.6;
         }
 
         .manifesto-btn {
+            width: 100%;
+            padding: 10px;
             border-radius: 10px;
+            font-weight: 650;
         }
 
-        .voted-box {
-            padding: 15px;
-            border-radius: 12px;
-            background: #ecfdf5;
-            color: #047857;
+        /* =====================================
+           EMPTY
+        ===================================== */
+
+        .empty-state {
+            padding: 34px 20px;
+            text-align: center;
+            border: 1px dashed #cbd5e1;
+            border-radius: 17px;
+            background: white;
         }
+
+        .empty-icon {
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            border-radius: 15px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 21px;
+        }
+
+        .empty-state h6 {
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        /* =====================================
+           MANIFESTO MODAL
+        ===================================== */
+
+        .modal-content {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow:
+                0 25px 70px rgba(15,23,42,.22);
+        }
+
+        .modal-header {
+            padding: 20px 22px;
+            border: none;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #2563eb
+                );
+        }
+
+        .modal-title {
+            font-weight: 750;
+        }
+
+        .modal-body {
+            padding: 24px;
+            color: #475569;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        /* =====================================
+           FOOTER
+        ===================================== */
+
+        .footer {
+            margin-top: 48px;
+            padding: 23px 0 8px;
+            border-top: 1px solid #e5eaf2;
+            color: #94a3b8;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 768px) {
+
+            .brand {
+                font-size: 16px;
+            }
+
+            .brand-icon {
+                width: 39px;
+                height: 39px;
+                font-size: 19px;
+            }
+
+            .nav-btn .nav-text {
+                display: none;
+            }
+
+            .election-header {
+                margin-top: 15px;
+                padding: 28px;
+                border-radius: 21px;
+            }
+
+            .election-header h1 {
+                font-size: 29px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .position-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .vote-btn,
+            .voted-box {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .candidate-image-wrapper {
+                height: 235px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .main-container {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .election-header {
+                padding: 23px;
+            }
+
+            .election-header h1 {
+                font-size: 26px;
+            }
+
+            .candidate-body {
+                padding: 19px;
+            }
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================
+     NAVBAR
+===================================== -->
+
 <nav class="navbar topbar">
-    <div class="container d-flex justify-content-between">
 
-        <a href="/student/dashboard" class="brand">
-            <span class="brand-icon">
-                <i class="bi bi-check2-square"></i>
-            </span>
-            Student Council Voting
-        </a>
+    <div class="container">
 
-        <div class="d-flex gap-2">
+        <div class="d-flex justify-content-between align-items-center w-100">
 
-            <a href="/student/elections" class="btn nav-btn btn-sm">
-                <i class="bi bi-arrow-left"></i>
-                Elections
+            <a
+                href="/student/dashboard"
+                class="brand">
+
+                <span class="brand-icon">
+                    <i class="bi bi-check2-square"></i>
+                </span>
+
+                Student Council Voting
+
             </a>
 
-            <button onclick="logout()" class="btn nav-btn btn-sm">
-                <i class="bi bi-box-arrow-right"></i>
-                Logout
-            </button>
+
+            <div class="nav-actions">
+
+                <a
+                    href="/student/elections"
+                    class="btn nav-btn btn-sm">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    <span class="nav-text ms-1">
+                        Elections
+                    </span>
+
+                </a>
+
+
+                <button
+                    onclick="logout()"
+                    class="btn nav-btn btn-sm">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span class="nav-text ms-1">
+                        Logout
+                    </span>
+
+                </button>
+
+            </div>
 
         </div>
 
     </div>
+
 </nav>
 
-<div class="container">
 
-    <div id="electionHeader"></div>
+<!-- =====================================
+     MAIN
+===================================== -->
 
-    <div id="resultsLink" class="mt-3"></div>
+<main class="container main-container">
 
-    <div id="positionsList"></div>
 
-</div>
+    <!-- BACK -->
 
-<script src="/js/auth.js"></script>
+    <div class="back-row">
 
-<script>
-requireAuth('ROLE_STUDENT');
+        <a
+            href="/student/elections"
+            class="back-btn">
 
-const params = new URLSearchParams(window.location.search);
-const electionId = params.get('id');
+            <i class="bi bi-arrow-left"></i>
 
-if (!electionId) {
-    window.location.href = '/student/elections';
-}
+            Back to Elections
 
-let votingStatusMap = {};
+        </a>
 
-async function loadVotingStatus() {
+    </div>
 
-    const res = await authFetch(
-        `/api/votes/status/${electionId}`
-    );
 
-    if (!res) return;
+    <!-- ELECTION HEADER -->
 
-    const statuses = await res.json();
-
-    statuses.forEach(s => {
-        votingStatusMap[s.positionId] = s.hasVoted;
-    });
-}
-
-async function loadElection() {
-
-    await loadVotingStatus();
-
-    const res = await authFetch(
-        `/api/student/elections/${electionId}`
-    );
-
-    if (!res) return;
-
-    const election = await res.json();
-
-    document.getElementById('electionHeader').innerHTML = `
+    <div id="electionHeader">
 
         <div class="election-header">
 
-            <span class="badge bg-light text-primary mb-3">
-                <i class="bi bi-award me-1"></i>
-                ${election.status}
-            </span>
+            <div class="header-content">
 
-            <h1>${election.name}</h1>
+                <div class="election-icon">
+                    <i class="bi bi-ballot2"></i>
+                </div>
 
-            <p class="mb-0">
-                ${election.description || 'College Student Council Election'}
-            </p>
+                <span class="status-badge">
+
+                    <span class="status-dot"></span>
+
+                    Loading...
+
+                </span>
+
+                <h1>
+                    Loading Election...
+                </h1>
+
+                <p class="election-description">
+                    Please wait while election details are loading.
+                </p>
+
+            </div>
 
         </div>
-    `;
 
-    const resultsDiv =
-        document.getElementById('resultsLink');
+    </div>
 
-    if (
-        election.status === 'COMPLETED' ||
-        election.showLiveResults
-    ) {
 
-        resultsDiv.innerHTML = `
-            <a href="/student/results?id=${electionId}"
-               class="btn btn-outline-primary rounded-3">
+    <!-- ELECTION INFORMATION -->
 
-                <i class="bi bi-bar-chart-fill me-1"></i>
-                View Election Results
+    <div id="electionInfo"></div>
 
-            </a>
-        `;
-    }
 
-    const positions = election.positions || [];
-    const container = document.getElementById('positionsList');
+    <!-- RESULTS -->
 
-    if (positions.length === 0) {
+    <div
+        id="resultsLink"
+        class="results-wrapper">
+    </div>
 
-        container.innerHTML = `
-            <div class="alert alert-info mt-4">
-                <i class="bi bi-info-circle me-2"></i>
-                No positions have been set up for this election yet.
+
+    <!-- POSITIONS -->
+
+    <div id="positionsList"></div>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <i class="bi bi-shield-check me-1"></i>
+
+        College Voting System · Student Portal
+
+    </footer>
+
+</main>
+
+
+<!-- =====================================
+     MANIFESTO MODAL
+===================================== -->
+
+<div
+    class="modal fade"
+    id="manifestoModal"
+    tabindex="-1"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5
+                    class="modal-title"
+                    id="manifestoTitle">
+
+                    Candidate Manifesto
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal"
+                    aria-label="Close">
+                </button>
+
             </div>
-        `;
 
-        return;
+            <div
+                class="modal-body"
+                id="manifestoBody">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     BOOTSTRAP
+===================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =====================================
+     AUTH
+===================================== -->
+
+<script src="/js/auth.js"></script>
+
+
+<script>
+
+    /* =====================================
+       STUDENT AUTHENTICATION
+    ===================================== */
+
+    requireAuth('ROLE_STUDENT');
+
+
+    /* =====================================
+       ELECTION ID
+    ===================================== */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const electionId =
+        params.get('id');
+
+
+    if (!electionId) {
+
+        window.location.href =
+            '/student/elections';
+
     }
 
-    for (const pos of positions) {
 
-        const hasVoted = votingStatusMap[pos.id];
+    /* =====================================
+       VOTING STATUS
+    ===================================== */
 
-        const section = document.createElement('div');
+    let votingStatusMap = {};
 
-        section.className = 'position-section';
 
-        section.innerHTML = `
+    async function loadVotingStatus() {
 
-            <div class="d-flex justify-content-between
-                        align-items-center flex-wrap gap-2">
+        try {
 
-                <h3 class="position-title">
-                    <i class="bi bi-person-badge text-primary me-2"></i>
-                    ${pos.title}
-                </h3>
+            const res =
+                await authFetch(
+                    `/api/votes/status/${electionId}`
+                );
 
-                ${
-                    election.status === 'ACTIVE'
-                    ?
-                    hasVoted
-                    ?
-                    `
-                    <div class="voted-box">
-                        <i class="bi bi-check-circle-fill me-1"></i>
-                        You already voted
-                    </div>
-                    `
-                    :
-                    `
-                    <a href="/student/vote?electionId=${electionId}&positionId=${pos.id}"
-                       class="btn btn-primary rounded-3">
+            if (!res) {
+                return;
+            }
 
-                        <i class="bi bi-ballot2 me-1"></i>
-                        Vote Now
+            if (!res.ok) {
+                return;
+            }
 
-                    </a>
-                    `
-                    : ''
+            const statuses =
+                await res.json();
+
+            if (!Array.isArray(statuses)) {
+                return;
+            }
+
+            statuses.forEach(
+                status => {
+
+                    votingStatusMap[
+                        status.positionId
+                    ] = status.hasVoted;
+
                 }
-
-            </div>
-
-            <div class="row g-4" id="pos-${pos.id}"></div>
-        `;
-
-        container.appendChild(section);
-
-        loadCandidates(pos.id);
-    }
-}
-
-async function loadCandidates(positionId) {
-
-    const res = await authFetch(
-        `/api/student/candidates/position/${positionId}`
-    );
-
-    if (!res) return;
-
-    const candidates = await res.json();
-
-    const target =
-        document.getElementById('pos-' + positionId);
-
-    if (candidates.length === 0) {
-
-        target.innerHTML = `
-            <div class="col-12">
-                <div class="alert alert-light border">
-                    No approved candidates yet.
-                </div>
-            </div>
-        `;
-
-        return;
-    }
-
-    target.innerHTML = '';
-
-    candidates.forEach(c => {
-
-        const col = document.createElement('div');
-
-        col.className = 'col-sm-6 col-lg-4';
-
-        col.innerHTML = `
-
-            <div class="candidate-card">
-
-                ${
-                    c.photoUrl
-                    ?
-                    `<img src="${c.photoUrl}"
-                          class="candidate-image"
-                          alt="Candidate">`
-                    :
-                    `
-                    <div class="candidate-placeholder">
-                        <i class="bi bi-person"></i>
-                    </div>
-                    `
-                }
-
-                <div class="candidate-body">
-
-                    <div class="candidate-name mb-1">
-                        ${c.fullName}
-                    </div>
-
-                    <div class="small text-muted mb-2">
-                        ${c.department || ''}
-                        ${c.year ? ' · ' + c.year : ''}
-                    </div>
-
-                    <p class="slogan">
-                        ${c.slogan || 'No slogan provided.'}
-                    </p>
-
-                    <button type="button"
-                            class="btn btn-outline-primary btn-sm
-                                   manifesto-btn w-100">
-
-                        <i class="bi bi-file-text me-1"></i>
-                        Read Manifesto
-
-                    </button>
-
-                </div>
-
-            </div>
-        `;
-
-        col.querySelector('.manifesto-btn')
-        .addEventListener('click', () => {
-
-            alert(
-                'MANIFESTO\n\n' +
-                (c.manifesto || 'No manifesto provided.')
             );
 
-        });
+        } catch (error) {
 
-        target.appendChild(col);
-    });
-}
+            console.error(
+                'Voting status error:',
+                error
+            );
 
-loadElection();
+        }
+
+    }
+
+
+    /* =====================================
+       HTML ESCAPE
+    ===================================== */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return '';
+        }
+
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+
+    }
+
+
+    /* =====================================
+       DATE FORMAT
+    ===================================== */
+
+    function formatDate(value) {
+
+        if (!value) {
+            return 'Not available';
+        }
+
+        const date =
+            new Date(value);
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+            return 'Not available';
+        }
+
+        return date.toLocaleString(
+            undefined,
+            {
+                dateStyle: 'medium',
+                timeStyle: 'short'
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       STATUS CLASS
+    ===================================== */
+
+    function getStatusDot(status) {
+
+        if (status === 'COMPLETED') {
+            return 'completed';
+        }
+
+        if (status === 'UPCOMING') {
+            return 'upcoming';
+        }
+
+        return '';
+
+    }
+
+
+    /* =====================================
+       LOAD ELECTION
+    ===================================== */
+
+    async function loadElection() {
+
+        try {
+
+            await loadVotingStatus();
+
+
+            const res =
+                await authFetch(
+                    `/api/student/elections/${electionId}`
+                );
+
+
+            if (!res) {
+                return;
+            }
+
+
+            if (!res.ok) {
+
+                throw new Error(
+                    `HTTP ${res.status}`
+                );
+
+            }
+
+
+            const election =
+                await res.json();
+
+
+            /* =================================
+               HEADER
+            ================================= */
+
+            document
+                .getElementById(
+                    'electionHeader'
+                )
+                .innerHTML = `
+
+                    <div class="election-header">
+
+                        <div class="header-content">
+
+                            <div class="election-icon">
+
+                                <i class="bi bi-ballot2"></i>
+
+                            </div>
+
+
+                            <span class="status-badge">
+
+                                <span class="status-dot
+                                    ${getStatusDot(
+                                        election.status
+                                    )}">
+                                </span>
+
+                                ${escapeHtml(
+                                    election.status
+                                )}
+
+                            </span>
+
+
+                            <h1>
+                                ${escapeHtml(
+                                    election.name
+                                )}
+                            </h1>
+
+
+                            <p class="election-description">
+
+                                ${escapeHtml(
+                                    election.description ||
+                                    'College Student Council Election'
+                                )}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+            /* =================================
+               INFORMATION CARDS
+            ================================= */
+
+            document
+                .getElementById(
+                    'electionInfo'
+                )
+                .innerHTML = `
+
+                    <div class="info-grid">
+
+                        <div class="info-card">
+
+                            <div class="info-icon">
+                                <i class="bi bi-calendar-plus"></i>
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Start Date
+                                </span>
+
+                                <span class="info-value">
+                                    ${formatDate(
+                                        election.startDateTime
+                                    )}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <div class="info-icon">
+                                <i class="bi bi-calendar-x"></i>
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    End Date
+                                </span>
+
+                                <span class="info-value">
+                                    ${formatDate(
+                                        election.endDateTime
+                                    )}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <div class="info-icon">
+                                <i class="bi bi-mortarboard"></i>
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Academic Year
+                                </span>
+
+                                <span class="info-value">
+
+                                    ${escapeHtml(
+                                        election.academicYear ||
+                                        'Not specified'
+                                    )}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-card">
+
+                            <div class="info-icon">
+                                <i class="bi bi-list-check"></i>
+                            </div>
+
+                            <div>
+
+                                <span class="info-label">
+                                    Positions
+                                </span>
+
+                                <span class="info-value">
+
+                                    ${
+                                        election.positions
+                                            ? election.positions.length
+                                            : 0
+                                    }
+
+                                    Position(s)
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+            /* =================================
+               RESULTS LINK
+            ================================= */
+
+            const resultsDiv =
+                document.getElementById(
+                    'resultsLink'
+                );
+
+
+            if (
+                election.status === 'COMPLETED' ||
+                election.showLiveResults
+            ) {
+
+                resultsDiv.innerHTML = `
+
+                    <a
+                        href="/student/results?id=${encodeURIComponent(
+                            electionId
+                        )}"
+                        class="btn btn-outline-primary results-btn">
+
+                        <i class="bi bi-bar-chart-fill"></i>
+
+                        View Election Results
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                `;
+
+            } else {
+
+                resultsDiv.innerHTML = '';
+
+            }
+
+
+            /* =================================
+               POSITIONS
+            ================================= */
+
+            const positions =
+                election.positions || [];
+
+
+            const container =
+                document.getElementById(
+                    'positionsList'
+                );
+
+
+            if (positions.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty-state mt-4">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-list-check"></i>
+
+                        </div>
+
+                        <h6>
+                            No Positions Available
+                        </h6>
+
+                        <p>
+                            No positions have been set up
+                            for this election yet.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML = '';
+
+
+            /* =================================
+               EACH POSITION
+            ================================= */
+
+            for (const pos of positions) {
+
+                const hasVoted =
+                    votingStatusMap[pos.id] === true;
+
+
+                const section =
+                    document.createElement(
+                        'section'
+                    );
+
+
+                section.className =
+                    'position-section';
+
+
+                let actionButton = '';
+
+
+                if (
+                    election.status === 'ACTIVE'
+                ) {
+
+                    if (hasVoted) {
+
+                        actionButton = `
+
+                            <div class="voted-box">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                You already voted
+
+                            </div>
+
+                        `;
+
+                    } else {
+
+                        actionButton = `
+
+                            <a
+                                href="/student/vote?electionId=${encodeURIComponent(
+                                    electionId
+                                )}&positionId=${encodeURIComponent(
+                                    pos.id
+                                )}"
+                                class="btn btn-primary vote-btn">
+
+                                <i class="bi bi-ballot2"></i>
+
+                                Vote Now
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        `;
+
+                    }
+
+                }
+
+
+                section.innerHTML = `
+
+                    <div class="position-header">
+
+                        <div class="position-title-wrapper">
+
+                            <div class="position-icon">
+
+                                <i class="bi bi-person-badge"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h2 class="position-title">
+
+                                    ${escapeHtml(
+                                        pos.title
+                                    )}
+
+                                </h2>
+
+                                <div class="position-label">
+                                    Candidates
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        ${actionButton}
+
+                    </div>
+
+
+                    <div
+                        class="row g-4"
+                        id="pos-${pos.id}">
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    section
+                );
+
+
+                await loadCandidates(
+                    pos.id
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                'Election loading error:',
+                error
+            );
+
+
+            document
+                .getElementById(
+                    'electionHeader'
+                )
+                .innerHTML = `
+
+                    <div class="empty-state mt-4">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-exclamation-triangle"></i>
+
+                        </div>
+
+                        <h6>
+                            Unable to Load Election
+                        </h6>
+
+                        <p>
+                            Please refresh the page
+                            and try again.
+                        </p>
+
+                    </div>
+
+                `;
+
+        }
+
+    }
+
+
+    /* =====================================
+       LOAD CANDIDATES
+    ===================================== */
+
+    async function loadCandidates(
+        positionId
+    ) {
+
+        try {
+
+            const res =
+                await authFetch(
+                    `/api/student/candidates/position/${positionId}`
+                );
+
+
+            if (!res) {
+                return;
+            }
+
+
+            if (!res.ok) {
+
+                throw new Error(
+                    `HTTP ${res.status}`
+                );
+
+            }
+
+
+            const candidates =
+                await res.json();
+
+
+            const target =
+                document.getElementById(
+                    'pos-' + positionId
+                );
+
+
+            if (!target) {
+                return;
+            }
+
+
+            if (
+                !Array.isArray(candidates) ||
+                candidates.length === 0
+            ) {
+
+                target.innerHTML = `
+
+                    <div class="col-12">
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+
+                                <i class="bi bi-person-x"></i>
+
+                            </div>
+
+                            <h6>
+                                No Approved Candidates
+                            </h6>
+
+                            <p>
+                                There are no approved candidates
+                                for this position yet.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            target.innerHTML = '';
+
+
+            candidates.forEach(
+                candidate => {
+
+                    const col =
+                        document.createElement(
+                            'div'
+                        );
+
+
+                    col.className =
+                        'col-sm-6 col-lg-4';
+
+
+                    const department =
+                        candidate.department ||
+                        'Department not specified';
+
+
+                    const year =
+                        candidate.year ||
+                        'Year not specified';
+
+
+                    const slogan =
+                        candidate.slogan ||
+                        'No slogan provided.';
+
+
+                    col.innerHTML = `
+
+                        <div class="candidate-card">
+
+
+                            <div class="candidate-image-wrapper">
+
+                                ${
+                                    candidate.photoUrl
+                                    ?
+
+                                    `
+                                    <img
+                                        src="${escapeHtml(
+                                            candidate.photoUrl
+                                        )}"
+                                        class="candidate-image"
+                                        alt="Candidate photo"
+                                        loading="lazy">
+                                    `
+
+                                    :
+
+                                    `
+                                    <div
+                                        class="candidate-placeholder">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+                                    `
+                                }
+
+                            </div>
+
+
+                            <div class="candidate-body">
+
+
+                                <div class="candidate-name">
+
+                                    ${escapeHtml(
+                                        candidate.fullName
+                                    )}
+
+                                </div>
+
+
+                                <div class="candidate-meta">
+
+                                    <span class="meta-chip">
+
+                                        <i class="bi bi-building"></i>
+
+                                        ${escapeHtml(
+                                            department
+                                        )}
+
+                                    </span>
+
+
+                                    <span class="meta-chip">
+
+                                        <i class="bi bi-mortarboard"></i>
+
+                                        ${escapeHtml(
+                                            year
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <p class="slogan">
+
+                                    "${escapeHtml(
+                                        slogan
+                                    )}"
+
+                                </p>
+
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-primary manifesto-btn">
+
+                                    <i class="bi bi-file-text me-1"></i>
+
+                                    Read Manifesto
+
+                                </button>
+
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    const manifestoButton =
+                        col.querySelector(
+                            '.manifesto-btn'
+                        );
+
+
+                    manifestoButton.addEventListener(
+                        'click',
+                        () => {
+
+                            showManifesto(
+                                candidate.fullName,
+                                candidate.manifesto
+                            );
+
+                        }
+                    );
+
+
+                    target.appendChild(
+                        col
+                    );
+
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                'Candidate loading error:',
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================
+       MANIFESTO
+    ===================================== */
+
+    function showManifesto(
+        candidateName,
+        manifesto
+    ) {
+
+        document.getElementById(
+            'manifestoTitle'
+        ).textContent =
+            `${candidateName || 'Candidate'} - Manifesto`;
+
+
+        document.getElementById(
+            'manifestoBody'
+        ).textContent =
+            manifesto ||
+            'No manifesto provided.';
+
+
+        const modalElement =
+            document.getElementById(
+                'manifestoModal'
+            );
+
+
+        const modal =
+            bootstrap.Modal.getOrCreateInstance(
+                modalElement
+            );
+
+
+        modal.show();
+
+    }
+
+
+    /* =====================================
+       START
+    ===================================== */
+
+    loadElection();
+
 </script>
 
 </body>

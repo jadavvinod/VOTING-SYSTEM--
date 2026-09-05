@@ -5,7 +5,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Spring Boot Parent -->
+    <!-- ========================================================= -->
+    <!-- Spring Boot Parent                                       -->
+    <!-- ========================================================= -->
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,7 +16,11 @@
         <relativePath/>
     </parent>
 
-    <!-- Project Information -->
+
+    <!-- ========================================================= -->
+    <!-- Project Information                                      -->
+    <!-- ========================================================= -->
+
     <groupId>com.college</groupId>
     <artifactId>voting</artifactId>
     <version>1.0.0</version>
@@ -21,12 +28,20 @@
     <name>voting</name>
     <description>College Student Election Voting System</description>
 
-    <!-- Java -->
+
+    <!-- ========================================================= -->
+    <!-- Java Version                                              -->
+    <!-- ========================================================= -->
+
     <properties>
         <java.version>21</java.version>
     </properties>
 
-    <!-- Dependencies -->
+
+    <!-- ========================================================= -->
+    <!-- Dependencies                                               -->
+    <!-- ========================================================= -->
+
     <dependencies>
 
         <!-- Spring Web -->
@@ -35,11 +50,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+
         <!-- Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
 
         <!-- Spring Security -->
         <dependency>
@@ -47,11 +64,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+
         <!-- Thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
 
         <!-- Validation -->
         <dependency>
@@ -59,11 +78,13 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+
         <!-- Email -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+
 
         <!-- MySQL -->
         <dependency>
@@ -72,6 +93,7 @@
             <scope>runtime</scope>
         </dependency>
 
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -79,13 +101,19 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- JWT -->
+
+        <!-- ===================================================== -->
+        <!-- JWT                                                     -->
+        <!-- ===================================================== -->
+
+        <!-- JWT API -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>0.12.6</version>
         </dependency>
 
+        <!-- JWT Implementation -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
@@ -93,6 +121,7 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- JWT Jackson -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
@@ -100,7 +129,11 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- DevTools -->
+
+        <!-- ===================================================== -->
+        <!-- Spring Boot DevTools                                   -->
+        <!-- ===================================================== -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -108,7 +141,11 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Testing -->
+
+        <!-- ===================================================== -->
+        <!-- Testing                                                 -->
+        <!-- ===================================================== -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -123,27 +160,67 @@
 
     </dependencies>
 
-    <!-- Build -->
+
+    <!-- ========================================================= -->
+    <!-- Build Configuration                                       -->
+    <!-- ========================================================= -->
+
     <build>
+
         <plugins>
 
-            <!-- Spring Boot Maven Plugin -->
+            <!-- ================================================= -->
+            <!-- Spring Boot Maven Plugin                          -->
+            <!-- ================================================= -->
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
                 <configuration>
+
+                    <!-- Main Spring Boot Application -->
+                    <mainClass>com.college.voting.VotingApplication</mainClass>
+
+                    <!-- Do not package Lombok into final application -->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                </configuration>
 
+                </configuration>
+            </plugin>
+
+
+            <!-- ================================================= -->
+            <!-- Maven Compiler Plugin                             -->
+            <!-- ================================================= -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <configuration>
+
+                    <release>21</release>
+
+                    <!-- Explicit Lombok annotation processing -->
+                    <annotationProcessorPaths>
+
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+
+                    </annotationProcessorPaths>
+
+                </configuration>
             </plugin>
 
         </plugins>
+
     </build>
 
 </project>

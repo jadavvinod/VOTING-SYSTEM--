@@ -1,6 +1,5 @@
 package com.college.voting.dto;
 
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -16,6 +15,10 @@ public class ElectionRequest {
     private String description;
 
     private String academicYear;
+
+    // Department / Branch
+    // Empty value means the election is available to all departments.
+    private String department;
 
     @NotNull(message = "Start date/time is required")
     private LocalDateTime startDateTime;

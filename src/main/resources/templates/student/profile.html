@@ -214,7 +214,7 @@
                         accept="image/png,image/jpeg,image/jpg,image/webp">
 
                     <div class="file-help mt-2">
-                        Select an image from your computer.
+                        JPG, JPEG, PNG or WEBP. Maximum 2 MB recommended.
                     </div>
 
                 </div>
@@ -243,6 +243,7 @@
                         type="text"
                         class="form-control"
                         id="fullName"
+                        maxlength="100"
                         required>
 
                 </div>
@@ -270,7 +271,8 @@
                     <input
                         type="text"
                         class="form-control"
-                        id="department">
+                        id="department"
+                        maxlength="80">
 
                 </div>
 
@@ -283,7 +285,8 @@
                     <input
                         type="text"
                         class="form-control"
-                        id="course">
+                        id="course"
+                        maxlength="80">
 
                 </div>
 
@@ -296,7 +299,8 @@
                     <input
                         type="text"
                         class="form-control"
-                        id="year">
+                        id="year"
+                        maxlength="20">
 
                 </div>
 
@@ -309,7 +313,8 @@
                     <input
                         type="text"
                         class="form-control"
-                        id="phoneNumber">
+                        id="phoneNumber"
+                        maxlength="20">
 
                 </div>
 
@@ -348,61 +353,18 @@
 
 requireAuth('ROLE_STUDENT');
 
-async function loadProfile() {
+let currentProfileImage = null;
 
-    const res = await authFetch('/api/student/profile');
 
-    if (!res) return;
-
-    if (!res.ok) {
-
-        const data = await res.json().catch(() => ({}));
-
-        showAlert(
-            data.message || 'Unable to load profile.',
-            'danger'
-        );
-
-        return;
-    }
-
-    const data = await res.json();
-
-    document.getElementById('studentId').value =
-        data.studentId || '';
-
-    document.getElementById('fullName').value =
-        data.fullName || '';
-
-    document.getElementById('email').value =
-        data.email || '';
-
-    document.getElementById('department').value =
-        data.department || '';
-
-    document.getElementById('course').value =
-        data.course || '';
-
-    document.getElementById('year').value =
-        data.year || '';
-
-    document.getElementById('phoneNumber').value =
-        data.phoneNumber || '';
-
-    document.getElementById('profileName').textContent =
-        data.fullName || 'Student';
-
-    document.getElementById('profileEmail').textContent =
-        data.email || '';
-
-}
+/* ================================
+   SHOW ALERT
+================================ */
 
 function showAlert(message, type) {
 
     const alertBox = document.getElementById('alertBox');
 
-    alertBox.className =
-        'alert alert-' + type;
+    alertBox.className = 'alert alert-' + type;
 
     alertBox.textContent = message;
 
@@ -410,55 +372,393 @@ function showAlert(message, type) {
 
 }
 
+
+/* ================================
+   SHOW PROFILE IMAGE
+================================ */
+
+function showProfileImage(image) {
+
+    const circle = document.getElementById('profileCircle');
+
+    if (image) {
+
+        circle.innerHTML =
+            '<img src="' + image + '" alt="Profile Picture">';
+
+    } else {
+
+        circle.innerHTML =
+            '<i class="bi bi-person"></i>';
+    }
+}
+
+
+/* ================================
+   LOAD PROFILE
+================================ */
+
+async function loadProfile() {
+
+    try {
+
+        const res = await authFetch('/api/student/profile');
+
+        if (!res) {
+            return;
+        }
+
+        if (!res.ok) {
+
+            const data = await res.json().catch(() => ({}));
+
+            showAlert(
+                data.message || 'Unable to load profile.',
+                'danger'
+            );
+
+            return;
+        }
+
+        const data = await res.json();
+
+        document.getElementById('studentId').value =
+            data.studentId || '';
+
+        document.getElementById('fullName').value =
+            data.fullName || '';
+
+        document.getElementById('email').value =
+            data.email || '';
+
+        document.getElementById('department').value =
+            data.department || '';
+
+        document.getElementById('course').value =
+            data.course || '';
+
+        document.getElementById('year').value =
+            data.year || '';
+
+        document.getElementById('phoneNumber').value =
+            data.phoneNumber || '';
+
+        document.getElementById('profileName').textContent =
+            data.fullName || 'Student';
+
+        document.getElementById('profileEmail').textContent =
+            data.email || '';
+
+        currentProfileImage = data.profileImage || null;
+
+        showProfileImage(currentProfileImage);
+
+        /*
+         * Keep localStorage updated so the profile dropdown
+         * on other student pages can use the latest information.
+         */
+
+        localStorage.setItem(
+            'fullName',
+            data.fullName || 'Student'
+        );
+
+        localStorage.setItem(
+            'email',
+            data.email || ''
+        );
+
+        if (currentProfileImage) {
+
+            localStorage.setItem(
+                'profileImage',
+                currentProfileImage
+            );
+
+        } else {
+
+            localStorage.removeItem('profileImage');
+        }
+
+    } catch (error) {
+
+        console.error('Profile loading error:', error);
+
+        showAlert(
+            'Unable to connect to the server.',
+            'danger'
+        );
+    }
+}
+
+
+/* ================================
+   PROFILE IMAGE PREVIEW
+================================ */
+
 document.getElementById('profileImage')
-.addEventListener('change', function() {
+    .addEventListener('change', function() {
 
-    const file = this.files[0];
+        const file = this.files[0];
 
-    if (!file) return;
+        if (!file) {
+            return;
+        }
 
-    const reader = new FileReader();
+        /*
+         * Check file type
+         */
 
-    reader.onload = function(e) {
+        const allowedTypes = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/webp'
+        ];
 
-        document.getElementById('profileCircle').innerHTML =
-            '<img src="' + e.target.result + '" alt="Profile Picture">';
+        if (!allowedTypes.includes(file.type)) {
 
-    };
+            showAlert(
+                'Please select JPG, JPEG, PNG or WEBP image.',
+                'danger'
+            );
 
-    reader.readAsDataURL(file);
+            this.value = '';
 
-});
+            return;
+        }
+
+        /*
+         * Check file size
+         */
+
+        if (file.size > 2 * 1024 * 1024) {
+
+            showAlert(
+                'Image size must be less than 2 MB.',
+                'danger'
+            );
+
+            this.value = '';
+
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            showProfileImage(e.target.result);
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+
+/* ================================
+   SAVE PROFILE
+================================ */
 
 document.getElementById('profileForm')
-.addEventListener('submit', async function(e) {
+    .addEventListener('submit', async function(e) {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const btn = document.getElementById('saveBtn');
+        const btn = document.getElementById('saveBtn');
 
-    btn.disabled = true;
+        const imageInput =
+            document.getElementById('profileImage');
 
-    btn.innerHTML =
-        '<span class="spinner-border spinner-border-sm me-2"></span>' +
-        'Saving...';
+        const file = imageInput.files[0];
 
-    /*
-     * Profile image upload/save will be connected
-     * after the backend endpoint is added.
-     */
+        btn.disabled = true;
 
-    showAlert(
-        'Profile page is working. Image/database save endpoint still needs to be connected.',
-        'success'
-    );
+        btn.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>' +
+            'Saving...';
 
-    btn.disabled = false;
+        try {
 
-    btn.innerHTML =
-        '<i class="bi bi-check-circle me-1"></i> Save Profile';
+            /*
+             * Convert selected image to Base64.
+             */
 
-});
+            let profileImage = currentProfileImage;
+
+            if (file) {
+
+                profileImage = await convertImageToBase64(file);
+
+            }
+
+            const requestBody = {
+
+                fullName:
+                    document.getElementById('fullName').value.trim(),
+
+                department:
+                    document.getElementById('department').value.trim(),
+
+                course:
+                    document.getElementById('course').value.trim(),
+
+                year:
+                    document.getElementById('year').value.trim(),
+
+                phoneNumber:
+                    document.getElementById('phoneNumber').value.trim(),
+
+                profileImage:
+                    profileImage
+
+            };
+
+            /*
+             * Send updated profile to backend.
+             */
+
+            const res = await authFetch(
+                '/api/student/profile',
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify(requestBody)
+                }
+            );
+
+            if (!res) {
+                return;
+            }
+
+            const data =
+                await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+
+                showAlert(
+                    data.message ||
+                    'Unable to update profile.',
+                    'danger'
+                );
+
+                return;
+            }
+
+            /*
+             * Update page using returned data.
+             */
+
+            document.getElementById('profileName').textContent =
+                data.fullName || 'Student';
+
+            document.getElementById('profileEmail').textContent =
+                data.email || '';
+
+            currentProfileImage =
+                data.profileImage || null;
+
+            showProfileImage(currentProfileImage);
+
+            /*
+             * Update localStorage.
+             */
+
+            localStorage.setItem(
+                'fullName',
+                data.fullName || 'Student'
+            );
+
+            localStorage.setItem(
+                'email',
+                data.email || ''
+            );
+
+            if (currentProfileImage) {
+
+                localStorage.setItem(
+                    'profileImage',
+                    currentProfileImage
+                );
+
+            } else {
+
+                localStorage.removeItem('profileImage');
+
+            }
+
+            /*
+             * Clear file input.
+             */
+
+            imageInput.value = '';
+
+            showAlert(
+                'Profile updated successfully!',
+                'success'
+            );
+
+        } catch (error) {
+
+            console.error('Profile update error:', error);
+
+            showAlert(
+                'Something went wrong while saving your profile.',
+                'danger'
+            );
+
+        } finally {
+
+            btn.disabled = false;
+
+            btn.innerHTML =
+                '<i class="bi bi-check-circle me-1"></i>' +
+                'Save Profile';
+
+        }
+
+    });
+
+
+/* ================================
+   IMAGE → BASE64
+================================ */
+
+function convertImageToBase64(file) {
+
+    return new Promise(function(resolve, reject) {
+
+        const reader = new FileReader();
+
+        reader.onload = function() {
+
+            resolve(reader.result);
+
+        };
+
+        reader.onerror = function() {
+
+            reject(
+                new Error('Unable to read image')
+            );
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+/* ================================
+   START
+================================ */
 
 loadProfile();
 
