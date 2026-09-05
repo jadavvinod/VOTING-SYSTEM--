@@ -7,6 +7,7 @@ C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\controller\AdminPositionController.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\controller\AdminResultController.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\controller\AdminStudentController.java
+C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\controller\AnalyticsController.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\controller\AuditLogController.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\controller\AuthController.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\controller\NotificationController.java
@@ -55,6 +56,8 @@ C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\entity\Position.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\entity\Role.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\entity\Student.java
+C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\entity\StudentElectionHidden.java
+C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\entity\StudentHiddenElection.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\entity\Vote.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\exception\AlreadyVotedException.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\exception\ApiError.java
@@ -70,6 +73,8 @@ C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\repository\NotificationRepository.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\repository\OtpVerificationRepository.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\repository\PositionRepository.java
+C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\repository\StudentElectionHiddenRepository.java
+C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\repository\StudentHiddenElectionRepository.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\repository\StudentRepository.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\repository\VoteRepository.java
 C:\Users\Vinod\OneDrive\Desktop\ドキュメント\Desktop\COLLEGE-VOTING-SYSTEM\college-voting-system\src\main\java\com\college\voting\security\CustomUserDetailsService.java

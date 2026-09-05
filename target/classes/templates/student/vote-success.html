@@ -1,58 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Vote Recorded | College Voting</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg,#eef2ff,#f8fafc,#eff6ff);
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff 0%,
+                    #f8fafc 50%,
+                    #eff6ff 100%
+                );
+            color: #172033;
             font-family: "Segoe UI", Arial, sans-serif;
         }
+
+        /* ================================
+           PAGE
+        ================================= */
 
         .success-wrapper {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 25px;
+            padding: 30px 18px;
         }
 
         .success-card {
+            position: relative;
             width: 100%;
-            max-width: 570px;
-            background: white;
-            border-radius: 28px;
-            padding: 50px 40px;
+            max-width: 620px;
+            overflow: hidden;
             text-align: center;
-            box-shadow: 0 25px 70px rgba(15,23,42,.10);
-            border: 1px solid #e3e8f0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 27px;
+            box-shadow:
+                0 25px 70px rgba(15,23,42,.10);
+        }
+
+        .top-line {
+            height: 6px;
+            background:
+                linear-gradient(
+                    90deg,
+                    #4f46e5,
+                    #2563eb
+                );
+        }
+
+        .success-content {
+            padding: 48px 42px 42px;
+        }
+
+        /* ================================
+           ICON
+        ================================= */
+
+        .success-icon-wrapper {
+            position: relative;
+            width: 115px;
+            height: 115px;
+            margin: 0 auto 25px;
         }
 
         .success-icon {
-            width: 105px;
-            height: 105px;
-            border-radius: 50%;
-            background: #dcfce7;
-            color: #16a34a;
+            width: 115px;
+            height: 115px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            margin: 0 auto 25px;
-            font-size: 55px;
-            animation: pop .5s ease;
+            justify-content: center;
+            border-radius: 50%;
+            color: #16a34a;
+            background: #dcfce7;
+            border: 8px solid #f0fdf4;
+            font-size: 58px;
+            animation: pop .55s ease;
+        }
+
+        .check-ring {
+            position: absolute;
+            inset: -7px;
+            border: 2px solid #bbf7d0;
+            border-radius: 50%;
+            animation: ring .8s ease;
         }
 
         @keyframes pop {
+
             0% {
-                transform: scale(.5);
+                transform: scale(.45);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+
+        @keyframes ring {
+
+            0% {
+                transform: scale(.6);
                 opacity: 0;
             }
 
@@ -60,85 +139,307 @@
                 transform: scale(1);
                 opacity: 1;
             }
+
         }
+
+        /* ================================
+           TEXT
+        ================================= */
 
         .success-card h1 {
-            font-weight: 750;
-            margin-bottom: 12px;
+            margin: 0 0 12px;
+            color: #172033;
+            font-size: 31px;
+            font-weight: 800;
+            letter-spacing: -.4px;
         }
 
-        .success-card p {
+        .subtitle {
+            max-width: 480px;
+            margin: 0 auto;
             color: #64748b;
-            font-size: 16px;
+            font-size: 15px;
+            line-height: 1.7;
         }
+
+        /* ================================
+           SECURE MESSAGE
+        ================================= */
 
         .success-message {
-            background: #f0fdf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin: 28px 0 25px;
+            padding: 16px;
             border: 1px solid #bbf7d0;
-            border-radius: 14px;
-            padding: 15px;
-            margin: 25px 0;
+            border-radius: 15px;
             color: #166534;
+            background: #f0fdf4;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .success-message i {
+            font-size: 20px;
+        }
+
+        /* ================================
+           INFORMATION
+        ================================= */
+
+        .info-row {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 27px;
+        }
+
+        .info-item {
+            padding: 13px 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 13px;
+            background: #f8fafc;
+        }
+
+        .info-item i {
+            display: block;
+            margin-bottom: 5px;
+            color: #4f46e5;
+            font-size: 18px;
+        }
+
+        .info-item span {
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        /* ================================
+           BUTTONS
+        ================================= */
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .btn-custom {
-            padding: 11px 19px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-width: 175px;
+            padding: 12px 18px;
             border-radius: 11px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
+            transition: .2s;
         }
 
-        @media(max-width:576px) {
-            .success-card {
-                padding: 40px 25px;
+        .btn-primary.btn-custom {
+            box-shadow:
+                0 8px 20px rgba(37,99,235,.15);
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            margin-top: 28px;
+            padding-top: 18px;
+            border-top: 1px solid #e5eaf2;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 576px) {
+
+            .success-wrapper {
+                padding: 18px 12px;
+            }
+
+            .success-content {
+                padding: 40px 22px 28px;
             }
 
             .success-card h1 {
-                font-size: 28px;
+                font-size: 27px;
             }
+
+            .success-icon,
+            .success-icon-wrapper {
+                width: 100px;
+                height: 100px;
+            }
+
+            .success-icon {
+                font-size: 49px;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-custom {
+                width: 100%;
+            }
+
         }
+
     </style>
+
 </head>
 
+
 <body>
+
 
 <div class="success-wrapper">
 
     <div class="success-card">
 
-        <div class="success-icon">
-            <i class="bi bi-check-lg"></i>
-        </div>
+        <div class="top-line"></div>
 
-        <h1>Vote Successfully Recorded!</h1>
 
-        <p>
-            Thank you for participating in the College Student Council Election.
-        </p>
+        <div class="success-content">
 
-        <div class="success-message">
-            <i class="bi bi-shield-check me-1"></i>
-            Your vote has been securely submitted.
-        </div>
 
-        <div class="d-flex justify-content-center
-                    flex-wrap gap-2">
+            <!-- SUCCESS ICON -->
 
-            <a href="#"
-               id="backToElectionBtn"
-               class="btn btn-primary btn-custom">
+            <div class="success-icon-wrapper">
 
-                <i class="bi bi-arrow-left me-1"></i>
-                Back to Election
+                <div class="check-ring"></div>
 
-            </a>
+                <div class="success-icon">
 
-            <a href="/student/dashboard"
-               class="btn btn-outline-secondary btn-custom">
+                    <i class="bi bi-check-lg"></i>
 
-                <i class="bi bi-house me-1"></i>
-                Dashboard
+                </div>
 
-            </a>
+            </div>
+
+
+            <!-- TITLE -->
+
+            <h1>
+                Vote Successfully Recorded!
+            </h1>
+
+
+            <p class="subtitle">
+
+                Thank you for participating in the
+                College Student Council Election.
+                Your participation makes your voice count.
+
+            </p>
+
+
+            <!-- SECURITY MESSAGE -->
+
+            <div class="success-message">
+
+                <i class="bi bi-shield-check"></i>
+
+                <span>
+                    Your vote has been securely submitted.
+                </span>
+
+            </div>
+
+
+            <!-- INFORMATION -->
+
+            <div class="info-row">
+
+                <div class="info-item">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    <span>
+                        Vote Recorded
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <i class="bi bi-lock-fill"></i>
+
+                    <span>
+                        Secure &amp; Private
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <i class="bi bi-person-check-fill"></i>
+
+                    <span>
+                        Participation Counted
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <a
+                    href="#"
+                    id="backToElectionBtn"
+                    class="btn btn-primary btn-custom">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Back to Election
+
+                </a>
+
+
+                <a
+                    href="/student/dashboard"
+                    class="btn btn-outline-secondary btn-custom">
+
+                    <i class="bi bi-house"></i>
+
+                    Dashboard
+
+                </a>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="footer">
+
+                <i class="bi bi-shield-lock me-1"></i>
+
+                Your vote is confidential and cannot be changed
+                after submission.
+
+            </div>
 
         </div>
 
@@ -146,33 +447,60 @@
 
 </div>
 
+
 <script src="/js/auth.js"></script>
 
+
 <script>
-requireAuth('ROLE_STUDENT');
 
-const params =
-    new URLSearchParams(window.location.search);
+    /* ================================
+       STUDENT AUTHENTICATION
+    ================================= */
 
-const electionId =
-    params.get('electionId');
+    requireAuth('ROLE_STUDENT');
 
-if (electionId) {
 
-    document.getElementById(
-        'backToElectionBtn'
-    ).href =
-        `/student/election-details?id=${electionId}`;
+    /* ================================
+       GET ELECTION ID
+    ================================= */
 
-} else {
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
-    document.getElementById(
-        'backToElectionBtn'
-    ).href =
-        '/student/elections';
 
-}
+    const electionId =
+        params.get('electionId');
+
+
+    /* ================================
+       BACK BUTTON
+    ================================= */
+
+    const backButton =
+        document.getElementById(
+            'backToElectionBtn'
+        );
+
+
+    if (electionId) {
+
+        backButton.href =
+            `/student/election-details?id=${encodeURIComponent(
+                electionId
+            )}`;
+
+    } else {
+
+        backButton.href =
+            '/student/elections';
+
+    }
+
 </script>
 
+
 </body>
+
 </html>
