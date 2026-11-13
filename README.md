@@ -44,7 +44,11 @@ JWT_SECRET=replace-with-a-long-random-secret-at-least-32-characters
 If you don't set them, the app falls back to `root` with no password and an insecure
 default JWT secret — fine for quick local testing, but change `JWT_SECRET` before this
 goes anywhere real.
+<!-- Snake Game Repo View -->
 
+<div align="center">
+  <img src="https://profile-readme-generator.com/assets/snake.svg" alt="Snake animation" />
+</div
 ## 5. Run it
 Run `VotingApplication.java` (right-click → Run), or `mvn spring-boot:run` from a terminal.
 
